@@ -21,8 +21,7 @@ RECALL	0.489
 Note: If you evaluate with different number of GPUs rather than 8, the results might be slightly (not significantly) jittered.
 
 ##  Train
-UniAD is trained in two stages. The first stage is to train the perception modules (e.g., track and map), 
-and the second stage initializes the weights trained from last stage and optimizes all the task modules together. The two-stage design is to stablize the training process.
+UniAD is trained in two stages. The first stage is to train the perception modules (e.g., track and map), and the second stage initializes the weights trained from last stage and optimizes all the task modules together. The two-stage design is to stablize the training process.
 
 ### GPU Requirements
 It's recommended to use at least 8 GPUs for training in both two stages. Training with fewer GPUs is fine but would cost more time.
