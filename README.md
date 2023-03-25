@@ -18,14 +18,16 @@
 <h3 align="center">
   <a href="https://opendrivelab.github.io/UniAD/">project page</a> |
   <a href="https://arxiv.org/abs/2212.10156">arXiv</a> |
-  <a href="">video</a> 
+  <a href="">video</a> |
+  <a href="https://opendrivelab.com/">OpenDriveLab</a>
+  
 </h3>
 
 https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-8172-b8ca8c65127e.mp4
 
 This repository will host the code of UniAD.
 
-> Planning-oriented Autonomous Driving
+> [Planning-oriented Autonomous Driving](https://arxiv.org/abs/2212.10156)
 >
 > Yihan Hu*, Jiazhi Yang*, [Li Chen*](https://scholar.google.com/citations?user=ulZxvY0AAAAJ&hl=en&authuser=1), Keyu Li*, Chonghao Sima, Xizhou Zhu, Siqi Chai, Senyao Du, Tianwei Lin, Wenhai Wang, Lewei Lu, Xiaosong Jia, Qiang Liu, Jifeng Dai, Yu Qiao, [Hongyang Li](https://lihongyang.info/)
 > - CVPR 2023, award candidate
