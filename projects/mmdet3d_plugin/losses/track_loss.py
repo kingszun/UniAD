@@ -207,8 +207,6 @@ class ClipMatcher(nn.Module):
             ],
             dim=0,
         )
-        # from IPython import embed
-        # embed()
 
         # for pad target, don't calculate regression loss, judged by whether obj_id=-1
         target_obj_ids = torch.cat(
@@ -264,7 +262,7 @@ class ClipMatcher(nn.Module):
                 for gt_per_img, (_, i) in zip(gt_instances, indices)
             ],
             dim=0,
-        )  # size(16)
+        )
         # [num_matched]
 
         target_obj_ids = torch.cat([target_obj_ids, torch.zeros(1).to(target_obj_ids.device)], dim=0)

@@ -1,13 +1,7 @@
 import torch
-import math
-
-import mmcv
 import torch
 import torch.nn as nn
 
-from mmdet.core import bbox_overlaps
-#from ..builder import LOSSES
-#from .utils import weighted_loss
 from mmdet.models.losses.utils import weighted_loss
 from mmdet.models.builder import LOSSES
 

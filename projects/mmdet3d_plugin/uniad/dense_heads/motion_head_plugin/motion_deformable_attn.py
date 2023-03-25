@@ -5,6 +5,7 @@ import torch
 import math
 import torch.nn as nn
 
+from einops import rearrange, repeat
 from mmcv.ops.multi_scale_deform_attn import multi_scale_deformable_attn_pytorch
 from mmcv.cnn import xavier_init, constant_init
 from mmcv.cnn.bricks.registry import ATTENTION, TRANSFORMER_LAYER
@@ -404,9 +405,7 @@ class MotionDeformableAttention(BaseModule):
         bs, num_value, _ = value.shape
         assert (spatial_shapes[:, 0] * spatial_shapes[:, 1]).sum() == num_value
 
-        # pickle.dump([value.cpu().detach()], open('/mnt/nas37/yihan01.hu/value_before.pkl', 'wb'))
         value = self.value_proj(value)
-        # pickle.dump([value.cpu().detach()], open('/mnt/nas37/yihan01.hu/value.pkl', 'wb'))
         if key_padding_mask is not None:
             value = value.masked_fill(key_padding_mask[..., None], 0.0)
         value = value.view(bs, num_value, self.num_heads, -1)
@@ -438,8 +437,8 @@ class MotionDeformableAttention(BaseModule):
                 + sampling_offsets \
                 / offset_normalizer[None, None, None, None, :, None, :]
 
-            sampling_locations = sampling_locations.permute([0,1,3,2,4,5,6])
-            attention_weights = attention_weights.permute([0,1,3,2,4,5])
+            sampling_locations = rearrange(sampling_locations, 'bs nq nh ns nl np c -> bs nq ns nh nl np c') # permute([0,1,3,2,4,5,6])
+            attention_weights = rearrange(attention_weights, 'bs nq nh ns nl np -> bs nq ns nh nl np') #.permute([0,1,3,2,4,5])
             sampling_locations = sampling_locations.reshape(bs, num_query*self.num_steps, self.num_heads, self.num_levels, self.num_points, 2)
             attention_weights = attention_weights.reshape(bs, num_query*self.num_steps, self.num_heads, self.num_levels, self.num_points)
 

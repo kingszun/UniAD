@@ -9,9 +9,9 @@ from mmdet3d.core.bbox import LiDARInstance3DBoxes
 
 from os import path as osp
 from nuscenes.eval.common.utils import quaternion_yaw, Quaternion
-from .nuscenes_eval import NuScenesEval_custom
+from .eval_utils.nuscenes_eval import NuScenesEval_custom
 from nuscenes.eval.tracking.evaluate import TrackingEval
-from .nuscenes_eval_motion import MotionEval
+from .eval_utils.nuscenes_eval_motion import MotionEval
 from nuscenes.eval.common.config import config_factory
 import tempfile
 from mmcv.parallel import DataContainer as DC
@@ -20,11 +20,11 @@ import pickle
 from prettytable import PrettyTable
 
 from nuscenes import NuScenes
-from projects.mmdet3d_plugin.datasets.vector_map import VectorizedLocalMap
-from projects.mmdet3d_plugin.datasets.rasterize import preprocess_map
-from projects.mmdet3d_plugin.datasets.map_api import NuScenesMap
-from projects.mmdet3d_plugin.datasets.trajectory_api import NuScenesTraj
-from .data_utils import lidar_nusc_box_to_global, obtain_map_info, output_to_nusc_box, output_to_nusc_box_det
+from projects.mmdet3d_plugin.datasets.data_utils.vector_map import VectorizedLocalMap
+from projects.mmdet3d_plugin.datasets.data_utils.rasterize import preprocess_map
+from projects.mmdet3d_plugin.datasets.eval_utils.map_api import NuScenesMap
+from projects.mmdet3d_plugin.datasets.data_utils.trajectory_api import NuScenesTraj
+from .data_utils.data_utils import lidar_nusc_box_to_global, obtain_map_info, output_to_nusc_box, output_to_nusc_box_det
 from nuscenes.prediction import convert_local_coords_to_global
 
 

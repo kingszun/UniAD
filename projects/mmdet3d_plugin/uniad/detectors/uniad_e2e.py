@@ -10,14 +10,14 @@ from mmdet.models.builder import build_head
 @DETECTORS.register_module()
 class UniAD(UniADTrack):
     """
-    UniAD: Unifying 3D Object Detection, Tracking and Motion Prediction, Occupancy Prediction and Planning.
+    UniAD: Unifying Detection, Tracking, Segmentation, Motion Forecasting, Occupancy Prediction and Planning for Autonomous Driving
     """
     def __init__(
         self,
-        occ_head=None,
-        motion_head=None,
-        planning_head=None,
         seg_head=None,
+        motion_head=None,
+        occ_head=None,
+        planning_head=None,
         task_loss_weight=dict(
             track=1.0,
             map=1.0,
@@ -201,7 +201,6 @@ class UniAD(UniADTrack):
             losses_motion = ret_dict_motion["losses"]
             outs_motion = ret_dict_motion["outs_motion"]
             outs_motion['bev_pos'] = bev_pos  # [1, 256, 200, 200]
-            # outs_motion dict of ('traj_query' ,'all_matched_idxes')# 
             losses_motion = self.loss_weighted_and_prefixed(losses_motion, prefix='motion')
             losses.update(losses_motion)
 

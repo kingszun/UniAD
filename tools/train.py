@@ -1,9 +1,3 @@
-# ---------------------------------------------
-# Copyright (c) OpenMMLab. All rights reserved.
-# ---------------------------------------------
-#  Modified by Zhiqi Li
-# ---------------------------------------------
- 
 from __future__ import division
 
 import argparse
@@ -21,7 +15,6 @@ from os import path as osp
 
 from mmdet import __version__ as mmdet_version
 from mmdet3d import __version__ as mmdet3d_version
-#from mmdet3d.apis import train_model
 
 from mmdet3d.datasets import build_dataset
 from mmdet3d.models import build_model
@@ -138,7 +131,7 @@ def main():
                 print(_module_path)
                 plg_lib = importlib.import_module(_module_path)
 
-            from projects.mmdet3d_plugin.bevformer.apis.train import custom_train_model
+            from projects.mmdet3d_plugin.uniad.apis.train import custom_train_model
     # set cudnn_benchmark
     if cfg.get('cudnn_benchmark', False):
         torch.backends.cudnn.benchmark = True

@@ -114,7 +114,6 @@ def min_ade(traj: torch.Tensor, traj_gt: torch.Tensor,
 
     return err, inds
 
-# TODO: DEBUG THIS FUNCTION (?)
 def traj_nll(
         pred_dist: torch.Tensor,
         traj_gt: torch.Tensor,
