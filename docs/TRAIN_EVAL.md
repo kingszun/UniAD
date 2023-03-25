@@ -1,6 +1,6 @@
 # Prerequisites
 
-**Please ensure you have prepared the environment and the nuScenes dataset.**
+**Please make sure you have prepared the environment and the nuScenes dataset.**
 
 ##  Train
 

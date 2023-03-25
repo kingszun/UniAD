@@ -242,7 +242,7 @@ model = dict(
         canvas_size=canvas_size,
         pc_range=point_cloud_range,
         num_query=300,
-        num_classes=4,  # 3+1
+        num_classes=4,
         num_things_classes=3,
         num_stuff_classes=1,
         in_channels=2048,
@@ -402,7 +402,6 @@ train_pipeline = [
             "gt_offset", 
             "gt_flow",
             "gt_backward_flow",
-            # "gt_occ_future_egomotions",
             "gt_occ_has_invalid_frame",
             "gt_occ_img_is_valid",
             # gt future bbox for plan	
@@ -416,7 +415,6 @@ train_pipeline = [
     ),
 ]
 test_pipeline = [
-    # dict(type="LoadMultiViewImageFromFiles", to_float32=True),
     dict(type='LoadMultiViewImageFromFilesInCeph', to_float32=True,
             file_client_args=file_client_args, img_root=data_root),
     dict(type="NormalizeMultiviewImage", **img_norm_cfg),
@@ -456,7 +454,6 @@ test_pipeline = [
                                             "gt_offset", 
                                             "gt_flow",
                                             "gt_backward_flow",
-                                            # "gt_occ_future_egomotions",
                                             "gt_occ_has_invalid_frame",
                                             "gt_occ_img_is_valid",
                                              # planning	
@@ -473,10 +470,6 @@ data = dict(
     workers_per_gpu=8,
     train=dict(
         type=dataset_type,
-
-        # is_debug=True,
-        # len_debug=0,
-        
         file_client_args=file_client_args,
         data_root=data_root,
         ann_file=ann_file_train,
@@ -498,7 +491,6 @@ data = dict(
         occ_n_future=occ_n_future_max,
         occ_filter_invalid_sample=False,
 
-        # occ_convert_lidar2ego=True,
         # we use box_type_3d='LiDAR' in kitti and nuscenes dataset
         # and box_type_3d='Depth' in sunrgbd and scannet dataset.
         box_type_3d="LiDAR",

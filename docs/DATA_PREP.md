@@ -21,7 +21,6 @@ mkdir infos
 cd infos
 wget https://github.com/OpenDriveLab/UniAD/releases/download/untagged-d7e1d5e20eded789eee9/nuscenes_infos_temporal_train.pkl  # train_infos
 wget https://github.com/OpenDriveLab/UniAD/releases/download/untagged-d7e1d5e20eded789eee9/nuscenes_infos_temporal_val.pkl  # val_infos
-
 ```
 
 
