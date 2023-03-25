@@ -11,12 +11,12 @@ cd UniAD
 ```
 If everything prepared properly, this should give results:
 
-``
-Aggregated results:
-AMOTA	0.390
+```
+Aggregated results: 
+AMOTA	0.390 
 AMOTP	1.300
 RECALL	0.489
-``
+```
 
 Note: If you evaluate with different number of GPUs rather than 8, the results might be slightly (not significantly) jittered.
 
