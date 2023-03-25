@@ -83,10 +83,10 @@ Pre-trained models and results under main metrics are provided below. We refer y
 
 
 ## Todo list
-- [ ] (Long-term) Improve flexibility
+- [ ] (Long-term) Improve flexibility for future extensions
 - [ ] Support bs>1
 - [ ] All checkpoints
-- [ ] Base checkpoints
+- [ ] Base-model checkpoints
 - [x] Code initialization
 
 

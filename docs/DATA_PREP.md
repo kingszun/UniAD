@@ -1,26 +1,49 @@
 
 
 ## NuScenes
-Download nuScenes V1.0 full dataset data  and CAN bus expansion data [HERE](https://www.nuscenes.org/download). Prepare nuscenes data by running
+Download nuScenes V1.0 full dataset data, CAN bus and map extensions [HERE](https://www.nuscenes.org/download), following the steps below to prepare the data.
 
 
-**Download CAN bus expansion**
+**Download nuScenes, CAN_bus and Map extensions**
 ```
-# download 'can_bus.zip'
-unzip can_bus.zip 
-# move can_bus to data dir
-```
-
-**Prepare nuScenes data**
-
-*We genetate custom annotation files which are different from mmdet3d's*
-```
-python tools/create_data.py nuscenes --root-path ./data/nuscenes --out-dir ./data/nuscenes --extra-tag nuscenes --version v1.0 --canbus ./data
+cd UniAD
+mkdir data
+# Download nuScenes V1.0 full dataset data directly to (or soft link to) UniAD/data/
+# Download CAN_bus and Map extensions directly to (or soft link to) UniAD/data/nuscenes/
 ```
 
-Using the above code will generate `nuscenes_infos_temporal_{train,val}.pkl`.
+**Prepare UniAD data infos**
 
-**Folder structure**
+*Option1: We have already prepared the off-the-shelf data infos for you, simply download them:*
+```
+cd UniAD/data
+mkdir infos
+cd infos
+wget https://github.com/OpenDriveLab/UniAD/releases/download/untagged-d7e1d5e20eded789eee9/nuscenes_infos_temporal_train.pkl  # train_infos
+wget https://github.com/OpenDriveLab/UniAD/releases/download/untagged-d7e1d5e20eded789eee9/nuscenes_infos_temporal_val.pkl  # val_infos
+
+```
+
+
+*Option2: You can also generate the data infos by yourself:*
+```
+cd UniAD/data
+mkdir infos
+./tools/uniad_create_data.sh
+# This will generate nuscenes_infos_temporal_{train,val}.pkl
+```
+
+**Prepare Motion Anchors**
+```
+cd UniAD/data
+mkdir others
+cd others
+wget https://github.com/OpenDriveLab/UniAD/releases/download/untagged-d7e1d5e20eded789eee9/motion_anchor_infos_mode6.pkl
+```
+
+**The Overall Structure**
+
+*Please make sure the data structure in UniAD/data/ is as follows:*
 ```
 UniAD
 ├── projects/
@@ -29,13 +52,16 @@ UniAD
 ├── ckpts/
 │   ├── uniad_base_track_map.pth
 ├── data/
-│   ├── can_bus/
 │   ├── nuscenes/
+│   │   ├── can_bus/
 │   │   ├── maps/
 │   │   ├── samples/
 │   │   ├── sweeps/
 │   │   ├── v1.0-test/
-|   |   ├── v1.0-trainval/
-|   |   ├── nuscenes_infos_temporal_train.pkl
-|   |   ├── nuscenes_infos_temporal_val.pkl
+│   │   ├── v1.0-trainval/
+│   ├── infos/
+│   │   ├── nuscenes_infos_temporal_train.pkl
+│   │   ├── nuscenes_infos_temporal_val.pkl
+│   ├── others/
+│   │   ├── motion_anchor_infos_mode6.pkl
 ```

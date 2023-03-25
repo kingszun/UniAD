@@ -1,17 +1,11 @@
-# ---------------------------------------------
-# Copyright (c) OpenMMLab. All rights reserved.
-# ---------------------------------------------
-#  Modified by Zhiqi Li
-# ---------------------------------------------
 from data_converter.create_gt_database import create_groundtruth_database
-# from data_converter import nuscenes_converter as nuscenes_converter
 from data_converter import lyft_converter as lyft_converter
 from data_converter import kitti_converter as kitti
 from data_converter import indoor_converter as indoor
 import argparse
 from os import path as osp
 import sys
-from UniAD.tools.data_converter import uniad_converter as nuscenes_converter
+from data_converter import uniad_nuscenes_converter as nuscenes_converter
 sys.path.append('.')
 
 
