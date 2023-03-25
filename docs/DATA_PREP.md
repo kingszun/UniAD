@@ -1,7 +1,7 @@
 
 
 ## NuScenes
-Download nuScenes V1.0 full dataset data, CAN bus and map extensions [HERE](https://www.nuscenes.org/download), following the steps below to prepare the data.
+Download nuScenes V1.0 full dataset data, CAN bus and map(v1.3) extensions [HERE](https://www.nuscenes.org/download), following the steps below to prepare the data.
 
 
 **Download nuScenes, CAN_bus and Map extensions**
@@ -9,12 +9,12 @@ Download nuScenes V1.0 full dataset data, CAN bus and map extensions [HERE](http
 cd UniAD
 mkdir data
 # Download nuScenes V1.0 full dataset data directly to (or soft link to) UniAD/data/
-# Download CAN_bus and Map extensions directly to (or soft link to) UniAD/data/nuscenes/
+# Download CAN_bus and Map(v1.3) extensions directly to (or soft link to) UniAD/data/nuscenes/
 ```
 
 **Prepare UniAD data infos**
 
-*Option1: We have already prepared the off-the-shelf data infos for you, simply download them:*
+*Option1: We have already prepared the off-the-shelf data infos for you:*
 ```
 cd UniAD/data
 mkdir infos
