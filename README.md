@@ -1,6 +1,6 @@
 <div align="center">   
   
-# (WIP) Planning-oriented Autonomous Driving
+# Planning-oriented Autonomous Driving
 </div>
 
 <!-- <p align="center">
@@ -16,36 +16,32 @@
 </p> -->
 
 <h3 align="center">
-  <a href="https://opendrivelab.github.io/UniAD/">project page</a> |
+  <a href="https://opendrivelab.github.io/UniAD/">Project Page</a> |
   <a href="https://arxiv.org/abs/2212.10156">arXiv</a> |
-  <a href="">video</a> |
   <a href="https://opendrivelab.com/">OpenDriveLab</a>
   
 </h3>
 
 https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-8172-b8ca8c65127e.mp4
 
-This repository will host the code of UniAD.
-
-> [Planning-oriented Autonomous Driving](https://arxiv.org/abs/2212.10156)
->
-> Yihan Hu*, Jiazhi Yang*, [Li Chen*](https://scholar.google.com/citations?user=ulZxvY0AAAAJ&hl=en&authuser=1), Keyu Li*, Chonghao Sima, Xizhou Zhu, Siqi Chai, Senyao Du, Tianwei Lin, Wenhai Wang, Lewei Lu, Xiaosong Jia, Qiang Liu, Jifeng Dai, Yu Qiao, [Hongyang Li](https://lihongyang.info/)
-> - CVPR 2023, award candidate
-> - Primary contact: Li Chen ( lichen@pjlab.org.cn )
+<br><br>
 
 ![teaser](sources/pipeline.png)
 
 ## Highlights
 
-- :oncoming_automobile: **Planning-oriented philosophy**: UniAD is a Unified Autonomous Driving algorithm framework devised following a planning-oriented philosophy. Instead of standalone modular design and multi-task learning, perception, prediciton and planning tasks/components should opt in and be prioritized hierarchically, and we demonstrate the performance can be enhanced to a new level.
-- :trophy: **SOTA performance**: All tasks among UniAD achieve SOTA performance, especially prediction and planning (motion: 0.71m minADE, occ: 63.4% IoU-n., plan: 0.31% avg.Col)
+- :oncoming_automobile: **Planning-oriented philosophy**: UniAD is a Unified Autonomous Driving algorithm framework following a planning-oriented philosophy. Instead of standalone modular design and multi-task learning, we cast a series of tasks, including perception, prediciton and planning tasks hierarchically.
+- :trophy: **SOTA performance**: All tasks within UniAD achieve SOTA performance, especially prediction and planning (motion: 0.71m minADE, occ: 63.4% IoU, planning: 0.31% avg.Col)
 
 ## News
 
-- Code & model release: We are actively re-organizing the codebase for better readability. The estimated time is late March. Please stay tuned!
-- About the title: To avoid misunderstanding about the "goal", we change the title from "Goal-oriented" to "Planning-oriented" as is suggested by the reviewers. We originally use  "goal" to indicate the  final safe planning in an AD pipeline, rather than "goal-point" -- the destination of a sequence of actions.
-- [2023/03/21] :rocket::rocket: UniAD paper is accepted by CVPR 2023, as an **award candidate** (12 out of 9155 submissions and 2360 accepted papers)!
-- [2022/12/21] UniAD [paper](https://arxiv.org/abs/2212.10156) is available on arXiv!
+- **`Paper Title Change`**: To avoid confusion with the "goal-point" navigation in Robotics, we change title from "Goal-oriented" to "Planning-oriented" suggested by Reviewers. Thank you!
+- [2023/04] **_Estimated_**. Model checkpoints release `v2.0`
+
+
+- [2023/03/25] Code & model initial release `v1.0`
+- [2023/03/21] :rocket::rocket: UniAD is accepted by CVPR 2023, as an **Award Candidate** (12 out of 2360 accepted papers)!
+- [2022/12/21] UniAD [paper](https://arxiv.org/abs/2212.10156) is available on arXiv.
 
 <!-- 
 ## Getting started
@@ -84,11 +80,11 @@ Pre-trained models and results under main metrics are provided below. We refer y
 
 
 
-## Todo list
+## TODO List
 - [ ] (Long-term) Improve flexibility for future extensions
-- [ ] Support bs>1
+- [ ] Support larger batch size
 - [ ] All checkpoints
-- [ ] Base-model checkpoints
+- [ ] Base-model checkpoints 
 - [x] Code initialization
 
 
@@ -101,7 +97,7 @@ All assets and code are under the [Apache 2.0 license](https://github.com/OpenDr
 Please consider citing our paper if the project helps your research with the following BibTex:
 
 ```bibtex
-@inproceedings{uniad,
+@inproceedings{hu2023_uniad,
  title={Planning-oriented Autonomous Driving}, 
  author={Yihan Hu and Jiazhi Yang and Li Chen and Keyu Li and Chonghao Sima and Xizhou Zhu and Siqi Chai and Senyao Du and Tianwei Lin and Wenhai Wang and Lewei Lu and Xiaosong Jia and Qiang Liu and Jifeng Dai and Yu Qiao and Hongyang Li},
  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
@@ -111,10 +107,9 @@ Please consider citing our paper if the project helps your research with the fol
 ## Related resources
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
-
-- [mmdet3d](https://github.com/open-mmlab/mmdetection3d)
 - [BEVFormer](https://github.com/fundamentalvision/BEVFormer) (:rocket:Ours!)
 - [ST-P3](https://github.com/OpenPerceptionX/ST-P3) (:rocket:Ours!)
+- [mmdet3d](https://github.com/open-mmlab/mmdetection3d)
 - [FIERY](https://github.com/wayveai/fiery)
 - [MOTR](https://github.com/megvii-research/MOTR)
 - [BEVerse](https://github.com/zhangyp15/BEVerse)
