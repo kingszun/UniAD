@@ -36,6 +36,8 @@ bev_w_ = 200
 _feed_dim_ = _ffn_dim_
 _dim_half_ = _pos_dim_
 canvas_size = (bev_h_, bev_w_)
+
+# NOTE: Change queue_length from 5 to 3 could save GPU memory.
 queue_length = 5  # each sequence contains `queue_length` frames.
 
 ### traj prediction args ###

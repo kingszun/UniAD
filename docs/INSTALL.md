@@ -15,12 +15,11 @@ pip install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f ht
 
 **c. GCC: Make sure gcc>=5 in conda env.**
 ```shell
-# If gcc is installed:
-export PATH=YOUR_GCC_PATH/bin:$PATH
-# Eg: export PATH=/mnt/gcc-5.4/bin:$PATH
-
 # If gcc is not installed:
 # conda install -c omgarcia gcc-6 # gcc-6.2
+
+export PATH=YOUR_GCC_PATH/bin:$PATH
+# Eg: export PATH=/mnt/gcc-5.4/bin:$PATH
 ```
 
 **d. CUDA: Before installing MMCV family, you need to set up the CUDA_HOME (for compiling some operators on the gpu).**
