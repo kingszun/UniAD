@@ -47,7 +47,7 @@ class MotionHead(BaseMotionHead):
                  group_id_list=[],
                  pc_range=None,
                  use_nonlinear_optimizer=False,
-                 anchor_info_path='/mnt/nas37/yihan01.hu/anchor_infos_mode6.pkl',
+                 anchor_info_path=None,
                  loss_traj=dict(),
                  num_classes=0,
                  vehicle_id_list=[0, 1, 2, 3, 4, 6, 7],

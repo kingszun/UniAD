@@ -1,5 +1,3 @@
-# Copyright (c) Phigent Robotics. All rights reserved.
-
 import torch
 from torch import nn
 import torch.utils.checkpoint as checkpoint
@@ -231,7 +229,6 @@ class Interpolate(nn.Module):
         self._interpolate = nn.functional.interpolate
         self._scale_factor = scale_factor
 
-    # pylint: disable=arguments-differ
     def forward(self, x):
         return self._interpolate(x, scale_factor=self._scale_factor, mode='bilinear', align_corners=False)
 
@@ -253,7 +250,6 @@ class Bottleneck(nn.Module):
     ):
         super().__init__()
         self._downsample = downsample
-        # bottleneck_channels = int(in_channels / 2)
         bottleneck_channels = int(in_channels / 2)
         out_channels = out_channels or in_channels
         padding_size = ((kernel_size - 1) * dilation + 1) // 2
@@ -331,7 +327,6 @@ class Bottleneck(nn.Module):
             )
             self.projection = nn.Sequential(projection)
 
-    # pylint: disable=arguments-differ
     def forward(self, *args):
         (x,) = args
         x_residual = self.layers(x)
