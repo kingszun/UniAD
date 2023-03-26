@@ -2,7 +2,7 @@
 
 ## (Optional) Sanity Check
 Please make sure you have prepared the environment and the nuScenes dataset. You can check it by simply evaluating the pre-trained first-stage(track_map) model as follows:
-```
+```shell
 cd UniAD
 ./tools/uniad_dist_eval.sh ./projects/configs/track_map/base_stage1.py ./ckpt/uniad_base_track_map.pth 8
 # For slurm users:
@@ -35,7 +35,7 @@ The second-stage training takes ~ 20 GB GPU memory, ~ 3 days for 20 epochs on 8 
 
 
 ### Training Command
-```
+```shell
 # N_GPUS is the number of GPUs used. Recommended >=8.
 ./tools/uniad_dist_train.sh ./projects/configs/track_map/base_stage1.py N_GPUS
 
@@ -47,7 +47,7 @@ The second-stage training takes ~ 20 GB GPU memory, ~ 3 days for 20 epochs on 8 
 
 
 ### Eval Command
-```
+```shell
 # N_GPUS is the number of GPUs used.  Recommended =8.
 # Evaluate with different number of GPUs (rather than 8) might slightly jitter the results.
 

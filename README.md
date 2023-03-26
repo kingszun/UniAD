@@ -84,8 +84,8 @@ The overall pipeline of UniAD is controlled by [uniad_e2e.py](projects/mmdet3d_p
 ## TODO List
 - [ ] (Long-term) Improve flexibility for future extensions
 - [ ] Support larger batch size
-- [ ] All checkpoints
-- [ ] Base-model checkpoints 
+- [ ] All configs & checkpoints
+- [ ] Base-model configs & checkpoints 
 - [x] Code initialization
 
 

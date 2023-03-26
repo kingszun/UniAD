@@ -56,7 +56,7 @@ pip install timm
 ``` -->
 
 **h. Clone UniAD.**
-```
+```shell
 git clone https://github.com/OpenDriveLab/UniAD.git
 ```
 

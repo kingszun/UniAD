@@ -18,10 +18,6 @@ class NuScenesTraj(object):
                  CLASSES,
                  box_mode_3d,
                  use_nonlinear_optimizer=False):
-        '''
-        Args:
-            fixed_num = -1 : no fixed num
-        '''
         super().__init__()
         self.nusc = nusc
         self.prepare_sdc_vel_info()
@@ -53,8 +49,6 @@ class NuScenesTraj(object):
             past_traj = np.zeros((self.past_steps + self.fut_steps, 2))		
             past_traj_valid_mask = np.zeros((self.past_steps + self.fut_steps, 2))
             if fut_traj_local.shape[0] > 0:
-                # TODO(yihan01.hu): fix hard code, if use nonlinear-optimizer
-                # trans = box.center
                 if self.use_nonlinear_optimizer:
                     trans = box.center
                 else:

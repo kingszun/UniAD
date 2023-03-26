@@ -931,6 +931,3 @@ if __name__ == "__main__":
         nusc_eval.main(
             plot_examples=plot_examples_,
             render_curves=render_curves_)
-    # for index in range(1, 41):
-    #    nusc_eval.update_gt(type_='ord', index=index)
-    #
