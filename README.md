@@ -73,7 +73,7 @@ Pre-trained models and results under main metrics are provided below. We refer y
 | UniAD-L | V2-99 | 0.409 | 0.323 | 0.723 | 64.1 | 0.29 | TBA | TBA |
 
 ### Checkpoint Usage:
-* Download the checkpoints you need into `UniAD/ckpt/` directory.
+* Download the checkpoints you need into `UniAD/ckpts/` directory.
 * You can directly evaluate these checkpoints to reproduce the results we reported, following the `evaluation` section in [TRAIN_EVAL.md](docs/TRAIN_EVAL.md).
 * You can also initialize your own model with the pretrained checkpoints to incorporate your customized designs and improve the model performance. Change the `load_from` field in your config to `path/of/ckpt` and follow the `train` section in [TRAIN_EVAL.md](docs/TRAIN_EVAL.md) to start training.
 

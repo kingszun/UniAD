@@ -1,7 +1,3 @@
-# ------------------------------------------------------------------------
-# Modified from MOTR (https://github.com/megvii-model/MOTR/)
-# ------------------------------------------------------------------------
-
 from .track_instance import Instances
 from mmdet3d.core.bbox.iou_calculators.iou3d_calculator import (
     bbox_overlaps_nearest_3d as iou_3d, )

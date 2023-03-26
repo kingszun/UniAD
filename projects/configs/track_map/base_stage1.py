@@ -567,6 +567,6 @@ log_config = dict(
     interval=10, hooks=[dict(type="TextLoggerHook"), dict(type="TensorboardLoggerHook")]
 )
 checkpoint_config = dict(interval=1)
-load_from = "ckpt/base_stage1.pth"
+load_from = "ckpts/bevformer_r101_dcn_24ep.pth"
 
 find_unused_parameters = True

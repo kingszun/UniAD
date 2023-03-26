@@ -4,10 +4,10 @@
 Please make sure you have prepared the environment and the nuScenes dataset. You can check it by simply evaluating the pre-trained first-stage(track_map) model as follows:
 ```shell
 cd UniAD
-./tools/uniad_dist_eval.sh ./projects/configs/track_map/base_stage1.py ./ckpt/uniad_base_track_map.pth 8
+./tools/uniad_dist_eval.sh ./projects/configs/track_map/base_stage1.py ./ckpts/uniad_base_track_map.pth 8
 
 # For slurm users:
-# ./tools/uniad_slurm_eval.sh YOUR_PARTITION ./projects/configs/track_map/base_stage1.py ./ckpt/uniad_base_track_map.pth 8
+# ./tools/uniad_slurm_eval.sh YOUR_PARTITION ./projects/configs/track_map/base_stage1.py ./ckpts/uniad_base_track_map.pth 8
 ```
 If everything is prepared properly, the output results should be:
 

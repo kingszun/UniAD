@@ -72,5 +72,6 @@ pip install -r requirements.txt --no-deps
 ```shell
 cd UniAD
 mkdir ckpts
+wget https://github.com/zhiqi-li/storage/releases/download/v1.0/bevformer_r101_dcn_24ep.pth
 wget https://github.com/OpenDriveLab/UniAD/releases/download/untagged-dd9b212d3a7d7eccb7b3/uniad_base_track_map.pth
 ```

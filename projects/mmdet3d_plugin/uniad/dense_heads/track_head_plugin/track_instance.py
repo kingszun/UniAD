@@ -1,7 +1,3 @@
-# ------------------------------------------------------------------------
-# Modified from MOTR (https://github.com/megvii-model/MOTR/)
-# ------------------------------------------------------------------------
-
 import itertools
 from typing import Any, Dict, List, Tuple, Union
 import torch
