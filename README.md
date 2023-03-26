@@ -62,7 +62,7 @@ Experiments of UniAD are conducted on the [nuScenes](https://www.nuscenes.org/) 
 After finishing the last two steps, you can evaluate the pre-trained first-stage model (track_map) as follows:
 ```
 cd UniAD
-./tools/uni_dist_eval.sh ./projects/configs/track_map/base_stage1.py ./ckpt/uniad_base_track_map.pth 8
+./tools/uniad_dist_eval.sh ./projects/configs/track_map/base_stage1.py ./ckpt/uniad_base_track_map.pth 8
 
 # For slurm users:
 # ./tools/uniad_slurm_eval.sh YOUR_PARTITION ./projects/configs/track_map/base_stage1.py ./ckpt/uniad_base_track_map.pth 8
