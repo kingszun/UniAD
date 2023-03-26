@@ -53,7 +53,6 @@ def accuracy(output, target, topk=(1, )):
 
 @LOSSES.register_module()
 class ClipMatcher(nn.Module):
-    # modified from https://github.com/megvii-model/MOTR/blob/main/models/motr.py#L38
     def __init__(
             self,
             num_classes,
