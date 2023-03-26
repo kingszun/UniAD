@@ -82,7 +82,7 @@ Pre-trained models and results under main metrics are provided below. We refer y
 The overall pipeline of UniAD is controlled by [uniad_e2e.py](projects/mmdet3d_plugin/uniad/detectors/uniad_e2e.py) which coordinates all the task modules in `UniAD/projects/mmdet3d_plugin/uniad/dense_heads`. If you are interested in the implementation of a specific task module, please refer to it's corresponding files, e.g., [motion_head](projects/mmdet3d_plugin/uniad/dense_heads/motion_head.py).
 
 ## TODO List
-- [ ] (Long-term) Improve flexibility for future extensions
+- [ ] (Long-term) Improve flexibility for future extensions, e.g., separating BEV encoder and tracking module.
 - [ ] Support larger batch size
 - [ ] All configs & checkpoints
 - [ ] Base-model configs & checkpoints 
