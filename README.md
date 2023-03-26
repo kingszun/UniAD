@@ -52,12 +52,39 @@ https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-
 -->
 
 ## Getting Started
-* Step 1. [Installation](docs/INSTALL.md)
-* Step 2. [Prepare Dataset](docs/DATA_PREP.md)
-* Step 3. [Train and Eval](docs/TRAIN_EVAL.md)
+
+### Step 1. Installation
+Please check [INSTALL.md](docs/INSTALL.md) for installation instructions.
+### Step 2. Prepare Dataset
+Experiments of UniAD are conducted on the [nuScenes](https://www.nuscenes.org/) dataset. Please check [DATA_PREP.md](docs/DATA_PREP.md) for dataset preparation.
+
+### Step 3. Sanity Check (Evaluation Example)
+After finishing the last two steps, you can evaluate the pre-trained first-stage model (track_map) as follows:
+```
+cd UniAD
+./tools/uni_dist_eval.sh ./projects/configs/track_map/base_stage1.py ./ckpt/uniad_base_track_map.pth 8
+
+# For slurm users:
+# ./tools/uniad_slurm_eval.sh YOUR_PARTITION ./projects/configs/track_map/base_stage1.py ./ckpt/uniad_base_track_map.pth 8
+
+# NOTE: Here we use 8 GPUs used for evaluation. Using different number of GPUs might lead to slightly different results.
+```
+If everything is prepared properly, the output results should be:
+
+```
+Aggregated results: 
+AMOTA	0.390 
+AMOTP	1.300
+RECALL	0.489
+```
+### Step 4. Train and Eval
+After the sanity check, let's train and evaluate your own models following [TRAIN_EVAL.md](docs/TRAIN_EVAL.md), which also includes the **GPU requirements** to train UniAD models. 
 
 
-## Models
+
+## Results and Pre-trained Models
+UniAD is trained in two stages. The first stage is to train the perception modules (e.g., track and map), and the second stage initializes the weights trained from last stage and optimizes all task modules together. We release pretrained checkpoints of both stages to facilitate the public usage. Results of each model are listed in the following tables.
+
 ### Stage-one: Perception training
 
 | Method | Encoder | Tracking<br>AMOTA | Mapping<br>IoU-lane | config | Download |
@@ -69,8 +96,8 @@ https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-
 
 
 ### Stage-two: End-to-end training
-
-Pre-trained models and results under main metrics are provided below. We refer you to the [paper](https://arxiv.org/abs/2212.10156) for more details.
+<!-- 
+Pre-trained models and results under main metrics are provided below. We refer you to the [paper](https://arxiv.org/abs/2212.10156) for more details. -->
 
 | Method | Encoder | Tracking<br>AMOTA | Mapping<br>IoU-lane | Motion<br>minADE |Occupancy<br>IoU-n. | Planning<br>avg.Col. | config | Download |
 | :---: | :---: | :---: | :---: | :---:|:---:| :---: | :---: | :---: |
@@ -78,7 +105,14 @@ Pre-trained models and results under main metrics are provided below. We refer y
 | UniAD-B | R101 | 0.359 | 0.313 | 0.708 | 63.4 | 0.31 |  TBA | TBA |
 | UniAD-L | V2-99 | 0.409 | 0.323 | 0.723 | 64.1 | 0.29 | TBA | TBA |
 
+### Usage of Checkpoints:
+* Download the checkpoints you need into UniAD/ckpt/ directory.
+* You can directly evaluate these checkpoints to reproduce the results we reported, following the evaluation section in [TRAIN_EVAL.md](docs/TRAIN_EVAL.md).
+* You can also initialize your own model with the pretrained checkpoints to incorporate your customized designs and improve the model performance. Change the `load_from` field in your config to `path/of/ckpt` and follow the training section in [TRAIN_EVAL.md](docs/TRAIN_EVAL.md) to start training.
 
+
+## Model Structure
+The overall pipeline of UniAD is controlled by [uniad_e2e.py](projects/mmdet3d_plugin/uniad/detectors/uniad_e2e.py) which coordinates all the task modules in `UniAD/projects/mmdet3d_plugin/uniad/dense_heads`. If you are interested in the implementation of a specific task module, please refer to it's corresponding files, e.g., [motion_head](projects/mmdet3d_plugin/uniad/dense_heads/motion_head.py).
 
 ## TODO List
 - [ ] (Long-term) Improve flexibility for future extensions

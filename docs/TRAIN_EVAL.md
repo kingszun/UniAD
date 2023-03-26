@@ -1,27 +1,7 @@
 # Train/Eval Models
 
-## Sanity Check
-Please make sure you have prepared the environment and the nuScenes dataset. You can check your preparation by simply evaluating the pre-trained first-stage(track_map) model as follows:
-```
-cd UniAD
-./tools/uniad_dist_eval.sh ./projects/configs/track_map/base_stage1.py ./ckpt/uniad_base_track_map.pth 8
-
-# For slurm users:
-# ./tools/uniad_slurm_eval.sh YOUR_PARTITION ./projects/configs/track_map/base_stage1.py ./ckpt/uniad_base_track_map.pth 8
-```
-If everything is prepared properly, this should give results:
-
-```
-Aggregated results: 
-AMOTA	0.390 
-AMOTP	1.300
-RECALL	0.489
-```
-
-**Note**: If you evaluate with different number of GPUs rather than 8, the results might be slightly (not significantly) jittered.
-
 ##  Train
-UniAD is trained in two stages. The first stage is to train the perception modules (e.g., track and map), and the second stage initializes the weights trained from last stage and optimizes all the task modules together. The two-stage design is to stablize the training process.
+UniAD is trained in two stages. The first stage is to train the perception modules (e.g., track and map), and the second stage initializes the weights trained from last stage and optimizes all task modules together. The two-stage design is to stablize the training process.
 
 ### GPU Requirements
 It's recommended to use at least 8 GPUs for training in both two stages. Training with fewer GPUs is fine but would cost more time.
