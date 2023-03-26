@@ -43,45 +43,11 @@ https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-
 - [2023/03/21] :rocket::rocket: UniAD is accepted by CVPR 2023, as an **Award Candidate** (12 out of 2360 accepted papers)!
 - [2022/12/21] UniAD [paper](https://arxiv.org/abs/2212.10156) is available on arXiv.
 
-<!-- 
-## Getting started
-
-- [Installation]()
-- [Dataset preparation]()
-- [Train and eval]()
--->
 
 ## Getting Started
-
-### Step 1. Installation
-Please check [INSTALL.md](docs/INSTALL.md) for installation instructions.
-### Step 2. Prepare Dataset
-Experiments of UniAD are conducted on the [nuScenes](https://www.nuscenes.org/) dataset. Please check [DATA_PREP.md](docs/DATA_PREP.md) for dataset preparation.
-
-### Step 3. Sanity Check (Evaluation Example)
-After finishing the last two steps, you can evaluate the pre-trained first-stage model (track_map) as follows:
-```
-cd UniAD
-./tools/uniad_dist_eval.sh ./projects/configs/track_map/base_stage1.py ./ckpt/uniad_base_track_map.pth 8
-
-# For slurm users:
-# ./tools/uniad_slurm_eval.sh YOUR_PARTITION ./projects/configs/track_map/base_stage1.py ./ckpt/uniad_base_track_map.pth 8
-
-# NOTE: Here we use 8 GPUs used for evaluation. Using different number of GPUs might lead to slightly different results.
-```
-If everything is prepared properly, the output results should be:
-
-```
-Aggregated results: 
-AMOTA	0.390 
-AMOTP	1.300
-RECALL	0.489
-```
-
-### Step 4. Train and Eval
-After the sanity check, let's train and evaluate your own models following [TRAIN_EVAL.md](docs/TRAIN_EVAL.md), which also includes the **GPU requirements** to train UniAD models. 
-
-
+* Step 1. [Installation](docs/INSTALL.md)
+* Step 2. [Prepare Dataset](docs/DATA_PREP.md)
+* Step 3. [Train/Eval and GPU Requirements](docs/TRAIN_EVAL.md)
 
 ## Results and Pre-trained Models
 UniAD is trained in two stages. The first stage is to train the perception modules (e.g., track and map), and the second stage initializes the weights trained from last stage and optimizes all task modules together, including track, map, motion, occupancy and *planning*. We release pretrained checkpoints of both stages to facilitate the public usage. Results of each model are listed in the following tables.
