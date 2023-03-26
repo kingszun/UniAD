@@ -84,7 +84,7 @@ After the sanity check, let's train and evaluate your own models following [TRAI
 
 
 ## Results and Pre-trained Models
-UniAD is trained in two stages. The first stage is to train the perception modules (e.g., track and map), and the second stage initializes the weights trained from last stage and optimizes all task modules together. We release pretrained checkpoints of both stages to facilitate the public usage. Results of each model are listed in the following tables.
+UniAD is trained in two stages. The first stage is to train the perception modules (e.g., track and map), and the second stage initializes the weights trained from last stage and optimizes all task modules together, including track, map, motion, occupancy and *planning*. We release pretrained checkpoints of both stages to facilitate the public usage. Results of each model are listed in the following tables.
 
 ### Stage-one: Perception training
 
@@ -108,8 +108,8 @@ Pre-trained models and results under main metrics are provided below. We refer y
 
 ### Usage of Checkpoints:
 * Download the checkpoints you need into UniAD/ckpt/ directory.
-* You can directly evaluate these checkpoints to reproduce the results we reported, following the evaluation section in [TRAIN_EVAL.md](docs/TRAIN_EVAL.md).
-* You can also initialize your own model with the pretrained checkpoints to incorporate your customized designs and improve the model performance. Change the `load_from` field in your config to `path/of/ckpt` and follow the training section in [TRAIN_EVAL.md](docs/TRAIN_EVAL.md) to start training.
+* You can directly evaluate these checkpoints to reproduce the results we reported, following the `evaluation` section in [TRAIN_EVAL.md](docs/TRAIN_EVAL.md).
+* You can also initialize your own model with the pretrained checkpoints to incorporate your customized designs and improve the model performance. Change the `load_from` field in your config to `path/of/ckpt` and follow the `train` section in [TRAIN_EVAL.md](docs/TRAIN_EVAL.md) to start training.
 
 
 ## Model Structure
