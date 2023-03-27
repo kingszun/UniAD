@@ -73,7 +73,7 @@ class PlanningHeadSingleMode(nn.Module):
             self.loss_collision.append(build_loss(cfg))
         self.loss_collision = nn.ModuleList(self.loss_collision)
 
-        self.use_col_optim = use_col_optim
+        self.use_col_optim = use_col_optim and (not self.training)
         self.occ_filter_range = col_optim_args['occ_filter_range']
         self.sigma = col_optim_args['sigma']
         self.alpha_collision = col_optim_args['alpha_collision']
