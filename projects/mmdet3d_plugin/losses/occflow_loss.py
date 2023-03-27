@@ -1,6 +1,9 @@
-# ---------------------------------------------
-#  Modified by from Fiery Official
-# ---------------------------------------------
+#---------------------------------------------------------------------------------#
+# UniAD: Planning-oriented Autonomous Driving (https://arxiv.org/abs/2212.10156)  #
+# Source code: https://github.com/OpenDriveLab/UniAD                              #
+# Copyright (c) OpenDriveLab. All rights reserved.                                #
+# Modified from Fiery (https://github.com/wayveai/fiery)                          #
+#---------------------------------------------------------------------------------#
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
