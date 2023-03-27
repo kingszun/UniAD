@@ -1,3 +1,9 @@
+#---------------------------------------------------------------------------------#
+# UniAD: Planning-oriented Autonomous Driving (https://arxiv.org/abs/2212.10156)  #
+# Source code: https://github.com/OpenDriveLab/UniAD                              #
+# Copyright (c) OpenDriveLab. All rights reserved.                                #
+#---------------------------------------------------------------------------------#
+
 import torch
 import torch.nn as nn
 from mmcv.cnn.bricks.registry import TRANSFORMER_LAYER_SEQUENCE

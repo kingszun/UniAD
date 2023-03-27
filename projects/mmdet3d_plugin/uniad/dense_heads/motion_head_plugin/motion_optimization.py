@@ -1,3 +1,9 @@
+#---------------------------------------------------------------------------------#
+# UniAD: Planning-oriented Autonomous Driving (https://arxiv.org/abs/2212.10156)  #
+# Source code: https://github.com/OpenDriveLab/UniAD                              #
+# Copyright (c) OpenDriveLab. All rights reserved.                                #
+#---------------------------------------------------------------------------------#
+
 from dataclasses import dataclass
 from enum import Enum, auto
 from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
