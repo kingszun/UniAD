@@ -212,7 +212,7 @@ class UniAD(UniADTrack):
 
         # Forward Occ Head
         outs_occflow = dict()
-        if self.with_occ_head and gt_bboxes_3d[0][-1].tensor.shape[0] > 1:
+        if self.with_occ_head:
             occ_gt = dict(
                 segmentation=gt_segmentation,
                 instance=gt_instance, 
