@@ -349,9 +349,9 @@ dataset_type = "NuScenesE2EDataset"
 data_root = "data/nuscenes/"
 info_root = "data/infos/"
 file_client_args = dict(backend="disk")
-ann_file_train=info_root + f"simple_nuscenes_infos_temporal_train.pkl"
-ann_file_val=info_root + f"simple_nuscenes_infos_temporal_val.pkl"
-ann_file_test=info_root + f"simple_nuscenes_infos_temporal_val.pkl"
+ann_file_train=info_root + f"nuscenes_infos_temporal_train.pkl"
+ann_file_val=info_root + f"nuscenes_infos_temporal_val.pkl"
+ann_file_test=info_root + f"nuscenes_infos_temporal_val.pkl"
 
 
 train_pipeline = [
