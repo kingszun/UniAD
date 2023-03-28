@@ -28,12 +28,21 @@ https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-
 
 ![teaser](sources/pipeline.png)
 
-## Highlights
+## Table of Contents:
+1. [Highlights](#high)
+2. [News](#news)
+3. [Getting Started](#start)
+4. [Results and Models](#models)
+5. [TODO List](#todos)
+6. [License](#license)
+7. [Citation](#citation)
+
+## Highlights <a name="hight"></a>
 
 - :oncoming_automobile: **Planning-oriented philosophy**: UniAD is a Unified Autonomous Driving algorithm framework following a planning-oriented philosophy. Instead of standalone modular design and multi-task learning, we cast a series of tasks, including perception, prediciton and planning tasks hierarchically.
 - :trophy: **SOTA performance**: All tasks within UniAD achieve SOTA performance, especially prediction and planning (motion: 0.71m minADE, occ: 63.4% IoU, planning: 0.31% avg.Col)
 
-## News
+## News <a name="news"></a>
 
 - **`Paper Title Change`**: To avoid confusion with the "goal-point" navigation in Robotics, we change title from "Goal-oriented" to "Planning-oriented" suggested by Reviewers. Thank you!
 - [2023/04] **_Estimated_**. Model checkpoints release `v2.0`
@@ -45,7 +54,7 @@ https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-
 
 
 
-## Table of Contents:
+<!-- ## Table of Contents:
 1. [Installation](docs/INSTALL.md)
 2. [Prepare Data](docs/DATA_PREP.md)
 3. [Evaluation Example](docs/TRAIN_EVAL.md#example)
@@ -54,13 +63,13 @@ https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-
 6. [Results and Models](#models)
 7. [TODO List](#todos)
 7. [License](#license)
-8. [Citing](#citation)
+8. [Citing](#citation) -->
 
 
-<!-- ## Getting Started
+## Getting Started <a name="start"></a>
 * Step 1. [Installation](docs/INSTALL.md)
 * Step 2. [Prepare Dataset](docs/DATA_PREP.md)
-* Step 3. [Train/Eval and GPU Requirements](docs/TRAIN_EVAL.md) -->
+* Step 3. [Train/Eval and GPU Requirements](docs/TRAIN_EVAL.md)
 
 ## Results and Pre-trained Models <a name="models"></a>
 UniAD is trained in two stages. Pretrained checkpoints of both stages will be released and the results of each model are listed in the following tables.
