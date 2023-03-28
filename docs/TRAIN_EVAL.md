@@ -1,6 +1,6 @@
 # Train/Eval Models
 
-## (Optional) Sanity Check
+## Evaluation Example
 Please make sure you have prepared the environment and the nuScenes dataset. You can check it by simply evaluating the pre-trained first-stage(track_map) model as follows:
 ```shell
 cd UniAD

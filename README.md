@@ -44,12 +44,25 @@ https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-
 - [2022/12/21] UniAD [paper](https://arxiv.org/abs/2212.10156) is available on arXiv.
 
 
-## Getting Started
+
+## Table of Contents:
+1. [Installation](docs/INSTALL.md)
+2. [Prepare Data](docs/DATA_PREP.md)
+3. [Evaluation Example](docs/TRAIN_EVAL.md#evaluation_example)
+4. [UniAD Training](docs/TRAIN_EVAL.md#train)
+5. [UniAD Evaluation](docs/TRAIN_EVAL.md#evaluation)
+6. [Results and Models](#models)
+7. [TODO List](#todos)
+7. [License](#license)
+8. [Citing](#citation)
+
+
+<!-- ## Getting Started
 * Step 1. [Installation](docs/INSTALL.md)
 * Step 2. [Prepare Dataset](docs/DATA_PREP.md)
-* Step 3. [Train/Eval and GPU Requirements](docs/TRAIN_EVAL.md)
+* Step 3. [Train/Eval and GPU Requirements](docs/TRAIN_EVAL.md) -->
 
-## Results and Pre-trained Models
+## Results and Pre-trained Models <a name="models"></a>
 UniAD is trained in two stages. Pretrained checkpoints of both stages will be released and the results of each model are listed in the following tables.
 
 ### Stage-one: Perception training
@@ -81,10 +94,10 @@ Pre-trained models and results under main metrics are provided below. We refer y
 * You can also initialize your own model with the provided weights. Change the `load_from` field to `path/of/ckpt` in the config and follow the `train` section in [TRAIN_EVAL.md](docs/TRAIN_EVAL.md) to start training.
 
 
-## Model Structure
+### Model Structure
 The overall pipeline of UniAD is controlled by [uniad_e2e.py](projects/mmdet3d_plugin/uniad/detectors/uniad_e2e.py) which coordinates all the task modules in `UniAD/projects/mmdet3d_plugin/uniad/dense_heads`. If you are interested in the implementation of a specific task module, please refer to it's corresponding file, e.g., [motion_head](projects/mmdet3d_plugin/uniad/dense_heads/motion_head.py).
 
-## TODO List
+## TODO List <a name="todos"></a>
 - [ ] (Long-term) Improve flexibility for future extensions, e.g., separating BEV encoder and tracking module.
 - [ ] Support larger batch size
 - [ ] All configs & checkpoints
@@ -92,11 +105,11 @@ The overall pipeline of UniAD is controlled by [uniad_e2e.py](projects/mmdet3d_p
 - [x] Code initialization
 
 
-## License
+## License <a name="license"></a>
 
 All assets and code are under the [Apache 2.0 license](./LICENSE) unless specified otherwise.
 
-## Citation
+## Citation <a name="citation"></a>
 
 Please consider citing our paper if the project helps your research with the following BibTex:
 
