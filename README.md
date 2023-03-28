@@ -50,9 +50,10 @@ https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-
 * Step 3. [Train/Eval and GPU Requirements](docs/TRAIN_EVAL.md)
 
 ## Results and Pre-trained Models
-UniAD is trained in two stages. The first stage is to train the perception modules (e.g., track and map), and the second stage initializes the weights trained from last stage and optimizes all task modules together, including track, map, motion, occupancy and *planning*. We release pretrained checkpoints of both stages to facilitate the public usage. Results of each model are listed in the following tables.
+UniAD is trained in two stages. Pretrained checkpoints of both stages will be released and the results of each model are listed in the following tables.
 
 ### Stage-one: Perception training
+> We first train the perception modules (i.e., track and map) to obtain a stable initlization for the next stage.
 
 | Method | Encoder | Tracking<br>AMOTA | Mapping<br>IoU-lane | config | Download |
 | :---: | :---: | :---: | :---: | :---:|:---:| 
@@ -63,6 +64,8 @@ UniAD is trained in two stages. The first stage is to train the perception modul
 
 
 ### Stage-two: End-to-end training
+> We optimizes all task modules together, including track, map, motion, occupancy and *planning*.
+
 <!-- 
 Pre-trained models and results under main metrics are provided below. We refer you to the [paper](https://arxiv.org/abs/2212.10156) for more details. -->
 
@@ -74,12 +77,12 @@ Pre-trained models and results under main metrics are provided below. We refer y
 
 ### Checkpoint Usage
 * Download the checkpoints you need into `UniAD/ckpts/` directory.
-* You can directly evaluate these checkpoints to reproduce the results we reported, following the `evaluation` section in [TRAIN_EVAL.md](docs/TRAIN_EVAL.md).
-* You can also initialize your own model with the pretrained checkpoints to incorporate your customized designs and improve the model performance. Change the `load_from` field in your config to `path/of/ckpt` and follow the `train` section in [TRAIN_EVAL.md](docs/TRAIN_EVAL.md) to start training.
+* You can evaluate these checkpoints to reproduce the results, following the `evaluation` section in [TRAIN_EVAL.md](docs/TRAIN_EVAL.md).
+* You can also initialize your own model with the provided weights. Change the `load_from` field to `path/of/ckpt` in the config and follow the `train` section in [TRAIN_EVAL.md](docs/TRAIN_EVAL.md) to start training.
 
 
 ## Model Structure
-The overall pipeline of UniAD is controlled by [uniad_e2e.py](projects/mmdet3d_plugin/uniad/detectors/uniad_e2e.py) which coordinates all the task modules in `UniAD/projects/mmdet3d_plugin/uniad/dense_heads`. If you are interested in the implementation of a specific task module, please refer to it's corresponding files, e.g., [motion_head](projects/mmdet3d_plugin/uniad/dense_heads/motion_head.py).
+The overall pipeline of UniAD is controlled by [uniad_e2e.py](projects/mmdet3d_plugin/uniad/detectors/uniad_e2e.py) which coordinates all the task modules in `UniAD/projects/mmdet3d_plugin/uniad/dense_heads`. If you are interested in the implementation of a specific task module, please refer to it's corresponding file, e.g., [motion_head](projects/mmdet3d_plugin/uniad/dense_heads/motion_head.py).
 
 ## TODO List
 - [ ] (Long-term) Improve flexibility for future extensions, e.g., separating BEV encoder and tracking module.
