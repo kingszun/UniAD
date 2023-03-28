@@ -86,7 +86,7 @@ UniAD is trained in two stages. Pretrained checkpoints of both stages will be re
 
 
 ### Stage-two: End-to-end training
-> We optimizes all task modules together, including track, map, motion, occupancy and *planning*.
+> We optimize all task modules together, including track, map, motion, occupancy and *planning*.
 
 <!-- 
 Pre-trained models and results under main metrics are provided below. We refer you to the [paper](https://arxiv.org/abs/2212.10156) for more details. -->
