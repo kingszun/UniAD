@@ -32,6 +32,11 @@ https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-
 1. [Highlights](#high)
 2. [News](#news)
 3. [Getting Started](#start)
+   - [Installation](docs/INSTALL.md)
+   - [Prepare Dataset](docs/DATA_PREP.md)
+   - [Evaluation Example](docs/TRAIN_EVAL.md#example)
+   - [Train/Eval](docs/TRAIN_EVAL.md#train)
+   - [GPU Requirements](docs/TRAIN_EVAL.md#gpu)
 4. [Results and Models](#models)
 5. [TODO List](#todos)
 6. [License](#license)
@@ -67,9 +72,11 @@ https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-
 
 
 ## Getting Started <a name="start"></a>
-* Step 1. [Installation](docs/INSTALL.md)
-* Step 2. [Prepare Dataset](docs/DATA_PREP.md)
-* Step 3. [Train/Eval and GPU Requirements](docs/TRAIN_EVAL.md)
+- [Installation](docs/INSTALL.md)
+- [Prepare Dataset](docs/DATA_PREP.md)
+- [Evaluation Example](docs/TRAIN_EVAL.md#example)
+- [Train/Eval](docs/TRAIN_EVAL.md#train)
+- [GPU Requirements](docs/TRAIN_EVAL.md#gpu)
 
 ## Results and Pre-trained Models <a name="models"></a>
 UniAD is trained in two stages. Pretrained checkpoints of both stages will be released and the results of each model are listed in the following tables.
@@ -86,7 +93,7 @@ UniAD is trained in two stages. Pretrained checkpoints of both stages will be re
 
 
 ### Stage-two: End-to-end training
-> We optimize all task modules together, including track, map, motion, occupancy and *planning*.
+> We optimize all task modules together, including track, map, motion, occupancy and planning.
 
 <!-- 
 Pre-trained models and results under main metrics are provided below. We refer you to the [paper](https://arxiv.org/abs/2212.10156) for more details. -->
@@ -104,7 +111,7 @@ Pre-trained models and results under main metrics are provided below. We refer y
 
 
 ### Model Structure
-The overall pipeline of UniAD is controlled by [uniad_e2e.py](projects/mmdet3d_plugin/uniad/detectors/uniad_e2e.py) which coordinates all the task modules in `UniAD/projects/mmdet3d_plugin/uniad/dense_heads`. If you are interested in the implementation of a specific task module, please refer to it's corresponding file, e.g., [motion_head](projects/mmdet3d_plugin/uniad/dense_heads/motion_head.py).
+The overall pipeline of UniAD is controlled by [uniad_e2e.py](projects/mmdet3d_plugin/uniad/detectors/uniad_e2e.py) which coordinates all the task modules in `UniAD/projects/mmdet3d_plugin/uniad/dense_heads`. If you are interested in the implementation of a specific task module, please refer to its corresponding file, e.g., [motion_head](projects/mmdet3d_plugin/uniad/dense_heads/motion_head.py).
 
 ## TODO List <a name="todos"></a>
 - [ ] (Long-term) Improve flexibility for future extensions, e.g., separating BEV encoder and tracking module.
