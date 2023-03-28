@@ -48,9 +48,9 @@ https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-
 ## Table of Contents:
 1. [Installation](docs/INSTALL.md)
 2. [Prepare Data](docs/DATA_PREP.md)
-3. [Evaluation Example](docs/TRAIN_EVAL.md#evaluation_example)
+3. [Evaluation Example](docs/TRAIN_EVAL.md#example)
 4. [UniAD Training](docs/TRAIN_EVAL.md#train)
-5. [UniAD Evaluation](docs/TRAIN_EVAL.md#evaluation)
+5. [UniAD Evaluation](docs/TRAIN_EVAL.md#eval)
 6. [Results and Models](#models)
 7. [TODO List](#todos)
 7. [License](#license)
