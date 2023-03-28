@@ -34,9 +34,9 @@ https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-
 3. [Getting Started](#start)
    - [Installation](docs/INSTALL.md)
    - [Prepare Dataset](docs/DATA_PREP.md)
-   - [Evaluation Example](https://github.com/OpenDriveLab/UniAD/blob/prepare_for_release/docs/TRAIN_EVAL.md#evaluation-example-)
-   - [GPU Requirements](https://github.com/OpenDriveLab/UniAD/blob/prepare_for_release/docs/TRAIN_EVAL.md#gpu-requirements-)
-   - [Train/Eval](https://github.com/OpenDriveLab/UniAD/blob/prepare_for_release/docs/TRAIN_EVAL.md#train)
+   - [Evaluation Example](docs/TRAIN_EVAL.md)
+   - [GPU Requirements](docs/TRAIN_EVAL.md)
+   - [Train/Eval](docs/TRAIN_EVAL.md)
 4. [Results and Models](#models)
 5. [TODO List](#todos)
 6. [License](#license)
@@ -74,9 +74,9 @@ https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-
 ## Getting Started <a name="start"></a>
 - [Installation](docs/INSTALL.md)
 - [Prepare Dataset](docs/DATA_PREP.md)
-- [Evaluation Example](https://github.com/OpenDriveLab/UniAD/blob/prepare_for_release/docs/TRAIN_EVAL.md#evaluation-example-)
-- [GPU Requirements](https://github.com/OpenDriveLab/UniAD/blob/prepare_for_release/docs/TRAIN_EVAL.md#gpu-requirements-)
-- [Train/Eval](https://github.com/OpenDriveLab/UniAD/blob/prepare_for_release/docs/TRAIN_EVAL.md#train-)
+- [Evaluation Example](docs/TRAIN_EVAL.md)
+- [GPU Requirements](docs/TRAIN_EVAL.md)
+- [Train/Eval](docs/TRAIN_EVAL.md)
 
 ## Results and Pre-trained Models <a name="models"></a>
 UniAD is trained in two stages. Pretrained checkpoints of both stages will be released and the results of each model are listed in the following tables.
