@@ -101,6 +101,7 @@ class CollisionNonlinearOptimizer:
         
         cost_collision = 0
         normalizer = 1/(2.507*self.sigma)
+        # TODO: vectorize this
         for t in range(len(self.obj_pixel_pos)):
             x, y = self.position_x[t], self.position_y[t]
             for i in range(len(self.obj_pixel_pos[t])):

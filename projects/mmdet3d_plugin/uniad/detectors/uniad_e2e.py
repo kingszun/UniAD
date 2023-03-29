@@ -129,7 +129,6 @@ class UniAD(UniADTrack):
         """Forward training function for the model that includes multiple tasks, such as tracking, segmentation, motion prediction, occupancy prediction, and planning.
 
             Args:
-            points (list[torch.Tensor], optional): List of point cloud tensors for each sample. Defaults to None.
             img (torch.Tensor, optional): Tensor containing images of each sample with shape (N, C, H, W). Defaults to None.
             img_metas (list[dict], optional): List of dictionaries containing meta information for each sample. Defaults to None.
             gt_bboxes_3d (list[:obj:BaseInstance3DBoxes], optional): List of ground truth 3D bounding boxes for each sample. Defaults to None.
@@ -187,6 +186,7 @@ class UniAD(UniADTrack):
         img_metas = [each[len_queue-1] for each in img_metas]
 
         outs_seg = dict()
+        # Forward Map Segmentation Head
         if self.with_seg_head:          
             losses_seg, outs_seg = self.seg_head.forward_train(bev_embed, img_metas,
                                                           gt_lane_labels, gt_lane_bboxes, gt_lane_masks)
@@ -414,6 +414,20 @@ class UniAD(UniADTrack):
         return result
 
     def pop_keys_in_result(self, result_task:dict, pop_list:list=None):
+        """
+        Removes specific keys from a given dictionary.
+
+        This function iterates through the keys in the provided dictionary (result_task),
+        and removes the keys that end with 'query', 'query_pos', or 'embedding'.
+        Additionally, if a list of keys (pop_list) is provided, those keys are also removed.
+
+        Args:
+            result_task (dict): The input dictionary from which keys are to be removed.
+            pop_list (list, optional): A list of additional keys to remove from the dictionary. Default is None.
+
+        Returns:
+            dict: The updated dictionary with specified keys removed.
+        """
         all_keys = list(result_task.keys())
         for k in all_keys:
             if k.endswith('query') or k.endswith('query_pos') or k.endswith('embedding'):

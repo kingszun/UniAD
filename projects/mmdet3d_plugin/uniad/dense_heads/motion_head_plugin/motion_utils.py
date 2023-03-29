@@ -47,6 +47,8 @@ def nonlinear_smoother(gt_bboxes_3d, gt_fut_traj, gt_fut_traj_mask, bbox_tensor)
     speed_preds = np.sqrt(np.sum(vel_preds**2, axis=-1))
     traj_perturb_all = []
 
+    # we set some constraints here to avoid perturbing the trajectories that are not dynamic, 
+    # or have large differences with the ground truth
     def _is_dynamic(traj, ts, dist_thres):
         return np.sqrt(np.sum((traj[ts, :2] - traj[0, :2])**2)) > dist_thres
 

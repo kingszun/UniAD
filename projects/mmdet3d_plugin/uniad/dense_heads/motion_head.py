@@ -38,6 +38,7 @@ class MotionHead(BaseMotionHead):
         pc_range: The range of the point cloud.
         use_nonlinear_optimizer (bool): A boolean indicating whether to use a non-linear optimizer for training.
         anchor_info_path (str): The path to the file containing the anchor information.
+        vehicle_id_list(list[int]): class id of vehicle class, used for filtering out non-vehicle objects
     """
     def __init__(self,
                  *args,
@@ -77,8 +78,8 @@ class MotionHead(BaseMotionHead):
         self.pc_range = pc_range
         self.predict_steps = predict_steps
         self.vehicle_id_list = vehicle_id_list
-        
         self.use_nonlinear_optimizer = use_nonlinear_optimizer
+        
         self._load_anchors(anchor_info_path)
         self._build_loss(loss_traj)
         self._build_layers(transformerlayers, det_layer_num)
@@ -118,6 +119,7 @@ class MotionHead(BaseMotionHead):
         track_boxes = outs_track['track_bbox_results']
         
         # cat sdc query/gt to the last
+        # TODO: make it more general
         sdc_match_index = torch.zeros((1,), dtype=all_matched_idxes[0].dtype, device=all_matched_idxes[0].device)
         sdc_match_index[0] = gt_fut_traj[0].shape[0]
         all_matched_idxes = [torch.cat([all_matched_idxes[0], sdc_match_index], dim=0)]
@@ -130,13 +132,13 @@ class MotionHead(BaseMotionHead):
         track_boxes[0][2] = torch.cat([track_boxes[0][2], sdc_track_boxes[0][2]], dim=0)
         track_boxes[0][3] = torch.cat([track_boxes[0][3], sdc_track_boxes[0][3]], dim=0)
         
-        B, num_dec, A_track, D = track_query.shape
         memory, memory_mask, memory_pos, lane_query, _, lane_query_pos, hw_lvl = outs_seg['args_tuple']
 
         outs_motion = self(bev_embed, track_query, lane_query, lane_query_pos, track_boxes)
         loss_inputs = [gt_bboxes_3d, gt_fut_traj, gt_fut_traj_mask, outs_motion, all_matched_idxes, track_boxes]
         losses = self.loss(*loss_inputs, img_metas=img_metas)
 
+        # TODO: make it more general
         def filter_vehicle_query(outs_motion, all_matched_idxes, gt_labels_3d, vehicle_id_list):
             query_label = gt_labels_3d[0][-1][all_matched_idxes[0]]
             # select vehicle query according to vehicle_id_list
@@ -149,7 +151,8 @@ class MotionHead(BaseMotionHead):
             all_matched_idxes[0] = all_matched_idxes[0][vehicle_mask>0]
             return outs_motion, all_matched_idxes
 
-        # TODO: occflow not support sdc query, filter it out!
+        # occflow not support sdc query, filter it out!
+        # TODO: make it more general
         all_matched_idxes[0] = all_matched_idxes[0][:-1]
         outs_motion['sdc_traj_query'] = outs_motion['traj_query'][:, :, -1]         # [3, 1, 6, 256]     [n_dec, b, n_mode, d]
         outs_motion['sdc_track_query'] = outs_motion['track_query'][:, -1]          # [1, 256]           [b, d]
@@ -157,8 +160,7 @@ class MotionHead(BaseMotionHead):
         outs_motion['traj_query'] = outs_motion['traj_query'][:, :, :-1]            # [3, 1, 3, 6, 256]  [n_dec, b, nq, n_mode, d]
         outs_motion['track_query'] = outs_motion['track_query'][:, :-1]             # [1, 3, 256]        [b, nq, d]   
         outs_motion['track_query_pos'] = outs_motion['track_query_pos'][:, :-1]     # [1, 3, 256]        [b, nq, d]  
-
-        ########################################################
+        
         
         outs_motion, all_matched_idxes = filter_vehicle_query(outs_motion, all_matched_idxes, gt_labels_3d, self.vehicle_id_list)
         outs_motion['all_matched_idxes'] = all_matched_idxes
@@ -266,6 +268,7 @@ class MotionHead(BaseMotionHead):
 
         # construct the agent level/scene-level query positional embedding 
         # (num_groups, num_anchor, 12, 2)
+        # to incorporate the information of different groups and coordinates, and embed the headding and location information
         agent_level_anchors = self.kmeans_anchors.to(dtype).to(device).view(num_groups, self.num_anchor, self.predict_steps, 2).detach()
         scene_level_ego_anchors = anchor_coordinate_transform(agent_level_anchors, track_bbox_results, with_translation_transform=True)  # B, A, G, P ,12 ,2
         scene_level_offset_anchors = anchor_coordinate_transform(agent_level_anchors, track_bbox_results, with_translation_transform=False)  # B, A, G, P ,12 ,2
@@ -274,6 +277,7 @@ class MotionHead(BaseMotionHead):
         scene_level_ego_norm = norm_points(scene_level_ego_anchors, self.pc_range)
         scene_level_offset_norm = norm_points(scene_level_offset_anchors, self.pc_range)
 
+        # we only use the last point of the anchor
         agent_level_embedding = self.agent_level_embedding_layer(
             pos2posemb2d(agent_level_norm[..., -1, :]))  # G, P, D
         scene_level_ego_embedding = self.scene_level_ego_embedding_layer(
@@ -288,19 +292,19 @@ class MotionHead(BaseMotionHead):
         
         # save for latter, anchors
         # B, A, G, P ,12 ,2 -> B, A, P ,12 ,2
-        scene_level_offset_anchors = self.classify_mode_query_pos(track_bbox_results, scene_level_offset_anchors)  
+        scene_level_offset_anchors = self.group_mode_query_pos(track_bbox_results, scene_level_offset_anchors)  
 
         # select class embedding
         # B, A, G, P , D-> B, A, P , D
-        agent_level_embedding = self.classify_mode_query_pos(
+        agent_level_embedding = self.group_mode_query_pos(
             track_bbox_results, agent_level_embedding)  
-        scene_level_ego_embedding = self.classify_mode_query_pos(
+        scene_level_ego_embedding = self.group_mode_query_pos(
             track_bbox_results, scene_level_ego_embedding)  # B, A, G, P , D-> B, A, P , D
         
         # B, A, G, P , D -> B, A, P , D
-        scene_level_offset_embedding = self.classify_mode_query_pos(
+        scene_level_offset_embedding = self.group_mode_query_pos(
             track_bbox_results, scene_level_offset_embedding)  
-        learnable_embed = self.classify_mode_query_pos(
+        learnable_embed = self.group_mode_query_pos(
             track_bbox_results, learnable_embed)  
 
         init_reference = scene_level_offset_anchors.detach()
@@ -335,6 +339,8 @@ class MotionHead(BaseMotionHead):
             outputs_class = self.traj_cls_branches[lvl](inter_states[lvl])
             tmp = self.traj_reg_branches[lvl](inter_states[lvl])
             tmp = self.unflatten_traj(tmp)
+            
+            # we use cumsum trick here to get the trajectory 
             tmp[..., :2] = torch.cumsum(tmp[..., :2], dim=3)
 
             outputs_class = self.log_softmax(outputs_class.squeeze(3))
@@ -347,6 +353,7 @@ class MotionHead(BaseMotionHead):
         outputs_trajs = torch.stack(outputs_trajs)
 
         B, A_track, D = track_query.shape
+        
         valid_traj_masks = track_query.new_ones((B, A_track)) > 0
         outs = {
             'all_traj_scores': outputs_traj_scores,
@@ -359,9 +366,9 @@ class MotionHead(BaseMotionHead):
 
         return outs
 
-    def classify_mode_query_pos(self, bbox_results, mode_query_pos):
+    def group_mode_query_pos(self, bbox_results, mode_query_pos):
         """
-        Classifies mode query positions based on the input bounding box results.
+        groups mode query positions based on the input bounding box results.
         
         Args:
             bbox_results (List[Tuple[torch.Tensor]]): A list of tuples containing the bounding box results for each image in the batch.
@@ -374,6 +381,9 @@ class MotionHead(BaseMotionHead):
         agent_num = mode_query_pos.shape[1]
         batched_mode_query_pos = []
         self.cls2group = self.cls2group.to(mode_query_pos.device)
+        
+        # TODO: vectorize this
+        # group the embeddings based on the class
         for i in range(batch_size):
             bboxes, scores, labels, bbox_index, mask = bbox_results[i]
             label = labels.to(mode_query_pos.device)

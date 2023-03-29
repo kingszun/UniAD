@@ -243,6 +243,22 @@ class OccHead(BaseModule):
             self.init_cfg = dict(type='Kaiming', layer='Conv2d')
 
     def get_attn_mask(self, state, ins_query):
+        """
+        Compute the attention mask for the given state and instance query.
+
+        This function calculates the attention mask for a given state and instance query,
+        and then upsamples the mask prediction to match the desired output size.
+
+        Args:
+            state (torch.Tensor): A tensor representing the input state. Shape: (b, c, h, w).
+            ins_query (torch.Tensor): A tensor representing the instance query. Shape: (b, q, c).
+
+        Returns:
+            tuple: A tuple containing the following tensors:
+                - attn_mask (torch.Tensor): The computed attention mask. Shape: (b, num_heads, (h * w), q).
+                - upsampled_mask_pred (torch.Tensor): The upsampled mask prediction. Shape: (b, q, h, w).
+                - ins_embed (torch.Tensor): The instance embeddings. Shape: (b, q, c).
+        """
         assert self.with_mask_attn is True
         # state: b, c, h, w
         # ins_query: b, q, c
@@ -270,6 +286,16 @@ class OccHead(BaseModule):
 
     # * Move this into forward
     def get_future_states(self, x, ins_query):
+        """
+        Computes future states using a sequence of transformer layers, downscaling, and attention mechanisms.
+
+        Args:
+            x (Tensor): Input tensor with shape (h*w, b, d) where h and w are height and width, b is the batch size, and d is the feature dimension.
+            ins_query (Tensor): Instance query tensor.
+
+        Returns:
+            dict: A dictionary containing 'future_states', 'temporal_query', 'mask_preds', and 'temporal_embed_for_mask_attn' tensors.
+        """
         base_state = rearrange(x, '(h w) b d -> b d h w', h=self.bev_size[0])
 
         base_state = self.bev_sampler(base_state)
@@ -376,6 +402,16 @@ class OccHead(BaseModule):
         return output
 
     def merge_queries(self, outs_dict, detach_query_pos=True):
+        """
+        Merges instance and track queries, and applies mode fusion based on the mode_fuser_version attribute.
+
+        Args:
+            outs_dict (dict): A dictionary containing 'traj_query', 'track_query', and 'track_query_pos' keys.
+            detach_query_pos (bool, optional): If True, detaches the track_query_pos tensor from the graph. Default is True.
+
+        Returns:
+            Tensor: A merged and mode-fused query tensor.
+        """
         ins_query = outs_dict.get('traj_query', None)       # [n_dec, b, nq, n_modes, dim]
         track_query = outs_dict['track_query']              # [b, nq, d]
         track_query_pos = outs_dict['track_query_pos']      # [b, nq, d]
@@ -628,6 +664,15 @@ class OccHead(BaseModule):
         return out_dict
 
     def get_ins_seg_gt(self, warpped_instance_label):
+        """
+        Convert a non-consecutive instance segmentation ground truth label to a consecutive one.
+
+        Args:
+            warpped_instance_label (Tensor): A non-consecutive instance segmentation ground truth label.
+
+        Returns:
+            Tensor: A consecutive instance segmentation ground truth label.
+        """
         ins_gt_old = warpped_instance_label  # Not consecutive, 0 for bg, otherwise ins_ind(start from 1)
         ins_gt_new = torch.zeros_like(ins_gt_old).to(ins_gt_old)  # Make it consecutive
         ins_inds_unique = torch.unique(ins_gt_old)
@@ -640,6 +685,15 @@ class OccHead(BaseModule):
         return ins_gt_new  # Consecutive
 
     def get_occflow_labels(self, batch):
+        """
+        Extracts and processes occlusion flow labels from a batch of input data.
+
+        Args:
+            batch (dict): A batch of input data containing 'segmentation', 'instance', and 'img_is_valid' keys.
+
+        Returns:
+            dict: A dictionary containing processed 'segmentation', 'instance', and 'img_is_valid' labels.
+        """
         seg_labels = batch['segmentation']
         ins_labels = batch['instance']
         img_is_valid = batch['img_is_valid']

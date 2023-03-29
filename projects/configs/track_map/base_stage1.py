@@ -22,8 +22,7 @@ class_names = [
     "pedestrian",
     "traffic_cone",
 ]
-vehicle_id_list = [0, 1, 2, 3, 4, 6, 7]
-group_id_list = [[0,1,2,3,4], [6,7], [8], [5,9]]
+
 input_modality = dict(
     use_lidar=False, use_camera=True, use_radar=False, use_map=False, use_external=True
 )
@@ -74,7 +73,6 @@ model = dict(
     video_test_mode=True,
     num_query=900,
     num_classes=10,
-    vehicle_id_list=vehicle_id_list,
     pc_range=point_cloud_range,
     img_backbone=dict(
         type="ResNet",
