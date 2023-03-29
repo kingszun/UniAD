@@ -49,11 +49,11 @@ https://user-images.githubusercontent.com/48089846/202974395-15fe83ac-eebb-4f38-
 
 ## News <a name="news"></a>
 
-- **`Paper Title Change`**: To avoid confusion with the "goal-point" navigation in Robotics, we change title from "Goal-oriented" to "Planning-oriented" suggested by Reviewers. Thank you!
+- **`Paper Title Change`**: To avoid confusion with the "goal-point" navigation in Robotics, we change the title from "Goal-oriented" to "Planning-oriented" suggested by Reviewers. Thank you!
 - [2023/04] **_Estimated_**. Model checkpoints release `v2.0`
 
 
-- [2023/03/25] Code & model initial release `v1.0`
+- [2023/03/29] Code & model initial release `v1.0`
 - [2023/03/21] :rocket::rocket: UniAD is accepted by CVPR 2023, as an **Award Candidate** (12 out of 2360 accepted papers)!
 - [2022/12/21] UniAD [paper](https://arxiv.org/abs/2212.10156) is available on arXiv.
 
@@ -114,10 +114,11 @@ Pre-trained models and results under main metrics are provided below. We refer y
 The overall pipeline of UniAD is controlled by [uniad_e2e.py](projects/mmdet3d_plugin/uniad/detectors/uniad_e2e.py) which coordinates all the task modules in `UniAD/projects/mmdet3d_plugin/uniad/dense_heads`. If you are interested in the implementation of a specific task module, please refer to its corresponding file, e.g., [motion_head](projects/mmdet3d_plugin/uniad/dense_heads/motion_head.py).
 
 ## TODO List <a name="todos"></a>
-- [ ] (Long-term) Improve flexibility for future extensions, e.g., separating BEV encoder and tracking module.
-- [ ] Support larger batch size
+- [ ] Base-model configs & checkpoints [Est. 2023/04]
+- [ ] Separating BEV encoder and tracking module [Est. 2023/04]
+- [ ] Support larger batch size [Est. 2023/04]
+- [ ] (Long-term) Improve flexibility for future extensions
 - [ ] All configs & checkpoints
-- [ ] Base-model configs & checkpoints 
 - [x] Code initialization
 
 
