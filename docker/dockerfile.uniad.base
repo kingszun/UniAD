@@ -1,0 +1,313 @@
+FROM nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04 AS base
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Seoul
+ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES},compute,display
+ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0 7.5 8.0+PTX"
+ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
+ENV PATH=${PATH}:/usr/local/cuda:/usr/local/cuda/bin
+ENV CUDA_HOME=/usr/local/cuda
+ENV FORCE_CUDA="1"
+
+SHELL ["/bin/bash", "--login", "-c"]
+
+# 시스템 패키지 설치 및 Python 설정
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
+    echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
+    apt-get update -q && \
+    apt-get install -q -y \
+        ffmpeg \
+        wget \
+        python3.8-dev \
+        python3-pip \
+        python3.8-tk \
+        git \
+        ninja-build \
+        libsm6 \
+        libxext6 \
+        libglib2.0-0 \
+        libsm6 \
+        libxrender-dev \
+        libxext6 \
+        vim && \
+    ln -s /usr/bin/python3 /usr/bin/python
+
+# Python 패키지 설치
+RUN pip install --no-cache-dir torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
+RUN pip uninstall -y \
+        numpy \
+        scikit-image \
+        pandas \
+        matplotlib \
+        shapely \
+        setuptools \
+        urllib3
+RUN pip install --no-cache-dir \
+        numpy==1.20.0 \
+        scikit-image==0.19.3 \
+        pandas==1.4.4 \
+        matplotlib==3.6 \
+        shapely==1.8.5.post1 \
+        setuptools==59.5.0 \
+        scikit-learn \
+        pyquaternion \
+        cachetools \
+        descartes \
+        future \
+        tensorboard \
+        IPython
+    
+# MMCV stage
+# FROM builder AS mmcv
+RUN git clone -b v1.4.0 --single-branch --depth 1 https://github.com/open-mmlab/mmcv.git /mmcv-full && \
+    cd /mmcv-full && MMCV_WITH_OPS=1 pip install --no-cache-dir -v -e . && \
+    rm -rf .git .github tests examples docs build *.md LICENSE setup.py setup.cfg && \
+    find . -name "*.so" -delete && \
+    find . -name "*.o" -delete && \
+    find . -name "*.pyc" -delete
+
+# MMDetection stage
+# FROM builder AS mmdetection
+RUN git clone -b v2.14.0 --single-branch --depth 1 https://github.com/open-mmlab/mmdetection.git /mmdetection && \
+    cd /mmdetection && pip install --no-cache-dir -v -e . && \
+    rm -rf .git .github tests examples docs build *.md LICENSE setup.py setup.cfg && \
+    find . -name "*.so" -delete && \
+    find . -name "*.o" -delete && \
+    find . -name "*.pyc" -delete
+
+# MMSegmentation stage
+# FROM builder AS mmsegmentation
+RUN git clone -b v0.14.1 --single-branch --depth 1 https://github.com/open-mmlab/mmsegmentation.git /mmsegmentation && \
+    cd /mmsegmentation && pip install --no-cache-dir -v -e . && \
+    rm -rf .git .github tests examples docs build *.md LICENSE setup.py setup.cfg && \
+    find . -name "*.so" -delete && \
+    find . -name "*.o" -delete && \
+    find . -name "*.pyc" -delete
+
+# MMDetection3D stage
+# FROM builder AS mmdetection3d
+RUN git clone --branch v0.17.1 --single-branch --depth 1 https://github.com/open-mmlab/mmdetection3d.git /mmdetection3d && \
+    cd /mmdetection3d && pip install scipy==1.7.3 scikit-image==0.20.0 && pip install --no-cache-dir -v -e . && \
+    rm -rf .git .github tests examples docs build *.md LICENSE setup.py setup.cfg && \
+    find . -name "*.so" -delete && \
+    find . -name "*.o" -delete && \
+    find . -name "*.pyc" -delete
+
+# UniAD stage
+
+# FROM builder AS uniad
+
+RUN git clone --depth 1 https://github.com/OpenDriveLab/UniAD.git /UniAD && \
+    cd /UniAD && \
+    rm -rf .git .github
+    
+# 최종 스테이지
+# FROM builder AS base
+
+# MM 시리즈 복사
+# COPY --from=mmcv /mmcv-full /mmcv-full
+# COPY --from=mmdetection /mmdetection /mmdetection
+# COPY --from=mmsegmentation /mmsegmentation /mmsegmentation
+# COPY --from=mmdetection3d /mmdetection3d /mmdetection3d
+
+# UniAD 및 필요한 Python 패키지만 복사
+# COPY --from=uniad /UniAD /UniAD
+RUN cd /UniAD && pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir --force-reinstall \
+    pillow==10.3.0 \
+    yapf==0.40.1 \
+    numpy==1.20.0
+
+# ENV PATH=/usr/local/bin:$PATH
+# ENV PYTHONPATH=$PYTHONPATH:/usr/local/lib/python3.8/dist-packages:/mmcv-full:/mmdetection:/mmsegmentation:/mmdetection3d:/UniAD
+
+RUN chmod -R 440 /mmcv-full /mmdetection /mmsegmentation /mmdetection3d /UniAD
+
+# jupyterhub 설치
+
+FROM base AS jupyterhub
+
+RUN echo 'root:1234' | chpasswd
+
+ENV NVM_DIR=/usr/local/nvm
+
+# System package 설치
+RUN apt-get update -q && \
+    apt-get install -y -q \
+        python3 \
+        python3-pip \
+        nodejs \
+        npm \
+        curl
+
+# python package 설치
+RUN pip install --no-cache-dir --force-reinstall \
+        notebook==6.4.12
+RUN pip install --no-cache-dir \
+        tornado \
+        tensorboard \
+        nbgitpuller \
+        jupyter-resource-usage \
+        jupyterlab-git \
+        jupyterlab \
+        jupyter-tensorboard \
+        jupytext \
+        jupyterhub-ldapauthenticator \
+        jupyter_tensorboard \
+        jupytext \
+        python-hostlist \
+        traitlets \
+        jupyterhub \
+        ipywidgets
+        
+RUN mkdir -p $NVM_DIR && \
+    curl -Lo- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash && \
+    source "$NVM_DIR/nvm.sh" && \
+    nvm install 16.20.2 node && \
+    echo "source $NVM_DIR/nvm.sh" >> /etc/bash.bashrc && \
+    mv /root/.jupyter/jupyter_notebook_config.json /usr/local/etc/jupyter/ && \
+    jupyter lab clean
+
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+RUN apt-get install -y nodejs
+
+# JupyterLab 및 TensorBoard 설정
+RUN jupyter serverextension enable --py jupyterlab --system
+RUN jupyter serverextension enable --py jupyter_tensorboard --system
+RUN jupyter nbextension enable --py jupyter_tensorboard
+RUN jupyter tensorboard enable --system
+
+RUN npm install -g configurable-http-proxy
+
+# /etc/jupyterhub/jupyterhub_config.py 파일 설정
+
+RUN mkdir -p /etc/jupyterhub && \
+cat <<EOT > /etc/jupyterhub/jupyterhub_config.py
+c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator'
+
+c.Authenticator.admin_users = {'root'}
+c.Authenticator.allow_all = True
+
+c.Spawner.default_url = '/lab'
+c.Spawner.environment = {'LD_LIBRARY_PATH': '/usr/local/nvidia/lib:/usr/local/nvidia/lib64'}
+c.Spawner.notebook_dir = '/home/{username}'
+
+c.JupyterHub.shutdown_on_logout = False
+c.JupyterHub.log_level = 'INFO'
+c.JupyterHub.cookie_secret_file = '/etc/jupyterhub/jupyterhub_cookie_secret'
+
+c.Spawner.disable_user_config = True
+
+from jupyter_server.services.contents.filemanager import FileContentsManager
+
+class RestrictedFileManager(FileContentsManager):
+    def _check_manager(self, path):
+        if not self.root_dir.startswith('/home/'):
+            self.root_dir = get_user_home(self.parent)
+        return super()._check_manager(path)
+
+c.ServerApp.contents_manager_class = RestrictedFileManager
+c.ServerApp.runtime_dir = '/tmp/jupyter_runtime'
+EOT
+
+# # /usr/local/etc/jupyter/jupyter_notebook_config.py Jupyter 설정 파일 설정
+RUN mkdir -p /usr/local/etc/jupyter && \
+cat <<EOT > /usr/local/etc/jupyter/jupyter_notebook_config.py
+import os
+c.NotebookApp.allow_root = True
+c.NotebookApp.ip = "0.0.0.0"
+c.NotebookApp.port = int(os.getenv("JUPYTER_PORT","8888"))
+c.NotebookApp.custom_display_url = "http://hostname:%d" % (c.NotebookApp.port)
+c.NotebookApp.open_browser = False
+c.NotebookApp.terminado_settings = { "shell_command": [ "/bin/bash", "-i"] }
+c.NotebookApp.contents_manager_class="jupytext.TextFileContentsManager"
+# c.NotebookApp.notebook_dir = "/"
+
+EOT
+
+# RUN mkdir -p /etc/sudoers.d && \
+# cat <<EOT >> /etc/sudoers.d/jupyterhub
+# root ALL=(ALL) NOPASSWD: /usr/bin/chmod 750 /home/*, /usr/bin/chown root:root /home, /usr/bin/chown -R *:* /home/*
+# EOT
+
+# Jupyter 포트 설정
+ENV JUPYTER_PORT=8888
+
+    
+# 최종 정리
+RUN rm -rf */.cache/pip && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+
+# CMD [ "/bin/bash", "-c", "jupyterhub -f /etc/jupyterhub/jupyterhub_config.py" ]
+
+
+FROM base AS zsh
+
+RUN apt-get update -q && \
+    apt-get install -y -q \
+    curl \
+    zsh \
+    fonts-powerline \
+    locales && \
+    locale-gen en_US.UTF-8
+
+# Install oh-my-zsh
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" || true
+
+# zsh-completions
+RUN git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-$HOME/.oh-my-zsh}/custom}/plugins/zsh-completions && \
+    echo 'fpath+=${ZSH_CUSTOM:-${ZSH:-$HOME/.oh-my-zsh}/custom}/plugins/zsh-completions/src' >> $HOME/.zshrc
+
+# zsh-autosuggestions
+RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && \
+    echo 'plugins=(zsh-autosuggestions)' >> $HOME/.zshrc
+
+# zsh-syntax-highlighting
+RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting && \
+    echo 'plugins=(zsh-syntax-highlighting)' >> $HOME/.zshrc
+
+# fzf
+RUN git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf && \
+    $HOME/.fzf/install --all
+
+# fzf-tab-completion
+RUN git clone https://github.com/lincheney/fzf-tab-completion.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab-completion && \
+    echo 'source ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab-completion/zsh/fzf-zsh-completion.sh' >> $HOME/.zshrc && \
+    echo 'bindkey "^I" fzf_completion' >> $HOME/.zshrc && \
+    echo 'zstyle ":completion:*" fzf-search-display true' >> $HOME/.zshrc
+
+# Add standard plugins
+RUN echo 'plugins=(docker docker-compose aws)' >> $HOME/.zshrc
+
+# Set theme
+RUN sed -i 's/^ZSH_THEME=.*/ZSH_THEME="agnoster"/' $HOME/.zshrc
+
+# Multiline 적용
+# Multiline 적용
+RUN sed -i '/^build_prompt() {/,/^}/c\
+prompt_newline() {\
+  if [[ -n \$CURRENT_BG ]]; then\
+    echo -n "%{%k%F{\$CURRENT_BG}%}\$SEGMENT_SEPARATOR%{%k%F{blue}%}\$SEGMENT_SEPARATOR"\
+  else\
+    echo -n "%{%k%}"\
+  fi\
+  echo -n "%{%f%}"\
+  CURRENT_BG=""\
+}\
+build_prompt() {\
+  RETVAL=\$?\
+  prompt_status\
+  prompt_virtualenv\
+  prompt_aws\
+  prompt_context\
+  prompt_dir\
+  prompt_git\
+  prompt_bzr\
+  prompt_hg\
+  prompt_newline # prompt_newline을 무조건 prompt_end 위에 써야 적용된다.\
+  prompt_end\
+}' $HOME/.oh-my-zsh/themes/agnoster.zsh-theme
+
+CMD ["/usr/bin/zsh"]
