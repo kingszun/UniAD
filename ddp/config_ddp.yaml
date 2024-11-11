@@ -1,0 +1,37 @@
+# config_ddp.yaml
+# 분산 학습 설정
+distributed:
+  world_size: 1
+  node_name: "master"
+  backend: "nccl"
+  init_method: "tcp"   # 초기화 방법 (tcp/file)
+  find_unused_parameters: false
+  sync_bn: true
+  timeout: 1800       # 타임아웃 시간(초)
+  nodes:
+    master:
+      use: true
+      node_rank: 0
+      local_size: 1
+      device:
+        gpu_nums: 1
+      network:
+        add: 
+          ip: "127.0.0.1"
+          ip_forward: ""
+        tcp:
+          port: "50001"
+          port_forward: ""
+        ssh:
+          port: ""
+          port_forward: ""
+
+# 로깅 설정
+logging:
+  level: "INFO"
+  save_dir: "./logs"
+  tensorboard: true
+  wandb:
+    use: false
+    project: "project_name"
+    entity: "entity_name"

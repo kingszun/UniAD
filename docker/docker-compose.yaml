@@ -1,0 +1,29 @@
+services:
+  uniad_base:
+    image: kingszun/uniad:base
+    build:
+      context: ./
+      dockerfile: dockerfile.uniad.base
+      target: uniad
+      args: 
+        BUILD_DATE: ${DATE}
+    privileged: true
+    volumes:
+      - $HOME:$HOME
+      - /mnt:/mnt
+    environment:
+      - DISPLAY=${DISPLAY}
+      - XAUTHORITY=/tmp/.docker.xauth
+      - TERM=xterm-256color
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_VISIBLE_DEVICES=all
+    network_mode: host
+    shm_size: 32gb
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command: ["/bin/bash"]
