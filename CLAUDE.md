@@ -27,6 +27,7 @@ CVPR'23 Best Paper, OpenDriveLab/UniAD — planning-oriented end-to-end autonomo
 ### 진입 시 먼저 읽을 것
 
 - `docs/00-overview.md` — fork 자체 정리 (project 목표, repo 구조, dependency, entry point, GPU / data 용량, host data layout, MotionFormer 위치 등). KAK-21 산출물.
+- `docs/01-motionformer_interface.md` — MotionFormer class / forward / input / output / loss / 데이터 흐름 / 결합 pain point. KAK-26 산출물.
 - `README.md` — UniAD 모델 개요, getting started 안내
 - `docs/INSTALL.md` — environment 설치 절차 (cuda 11.1 / torch 1.9.1+cu111 / mmcv-full 1.4.0 / mmdet 2.14.0 / mmsegmentation 0.14.1 / mmdet3d v0.17.1 from source)
 - `docs/DATA_PREP.md` — nuScenes data prep (motion / occupancy gt 생성 포함)
@@ -58,7 +59,7 @@ CVPR'23 Best Paper, OpenDriveLab/UniAD — planning-oriented end-to-end autonomo
 - KAK-23 inference smoke 미수행
 - KAK-24 nuScenes full data prep 진행 중 (`scripts/01-03` 으로 host download. v1 ckpt URL 로 갱신)
 - KAK-25 training smoke 미수행
-- KAK-26 MotionFormer interface 미정리
+- KAK-26 MotionFormer interface 정리 완료 → `docs/01-motionformer_interface.md`
 
 ### 자주 쓰는 command
 
