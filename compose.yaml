@@ -1,0 +1,34 @@
+name: ${COMPOSE_PROJECT_NAME:-uniad}
+
+services:
+  uniad:
+    image: ${IMAGE_REPO:-uniad}:${IMAGE_TAG:-cu118-py39-torch2.0.1}
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: uniad
+    working_dir: /workspace/UniAD
+    user: "${USER_UID:-1000}:${USER_GID:-1000}"
+    stdin_open: true
+    tty: true
+    ipc: host
+    shm_size: ${SHM_SIZE:-8gb}
+    ulimits:
+      memlock: -1
+      stack: 67108864
+    gpus: ${DOCKER_GPUS:-all}
+    environment:
+      HOME: /tmp
+      PYTHONUNBUFFERED: "1"
+      PYTHONPATH: /workspace/UniAD
+      TORCH_CUDA_ARCH_LIST: ${TORCH_CUDA_ARCH_LIST:-8.0;8.6;8.9;9.0+PTX}
+      CMAKE_CUDA_ARCHITECTURES: ${CMAKE_CUDA_ARCHITECTURES:-80;86;89;90}
+      DATA_ROOT: /workspace/UniAD/data
+      CKPT_ROOT: /workspace/UniAD/ckpts
+    volumes:
+      - .:/workspace/UniAD
+      - ${HOST_NUSCENES:-./data/nuscenes}:/workspace/UniAD/data/nuscenes
+      - ${HOST_UNIAD_INFOS:-./data/infos}:/workspace/UniAD/data/infos
+      - ${HOST_UNIAD_OTHERS:-./data/others}:/workspace/UniAD/data/others
+      - ${HOST_UNIAD_CKPTS:-./ckpts}:/workspace/UniAD/ckpts
+    command: ${COMPOSE_COMMAND:-sleep infinity}

@@ -52,7 +52,7 @@ CVPR'23 Best Paper, OpenDriveLab/UniAD — planning-oriented end-to-end autonomo
 
 - KAK-32 fork base v2.0 전환 완료
 - KAK-21 repo 구조 / dependency / license 파악 완료 → `docs/00-overview.md`
-- KAK-22 env setup 미완료 (v2.0 의 `mmdet3d 1.x` + `torch 2.0.1` 기준으로 진행 — v1 대비 dep build 비용 절감 기대)
+- KAK-22 env setup 진행 중 — `docker/Dockerfile` (v2.0 stack), `compose.yaml`, `.env.example`, `scripts/04-06` 작성. local 3060 build / import 검증 대기
 - KAK-23 inference smoke 미수행
 - KAK-24 nuScenes full data prep 진행 중 (`scripts/01-03` 으로 host download 자동화)
 - KAK-25 training smoke 미수행
@@ -72,7 +72,28 @@ bash scripts/02-download_huggingface.sh
 bash scripts/03-link_to_repo.sh
 ```
 
-env / smoke / training script 는 KAK-22 ~ KAK-25 진행 중 추가 예정. 현 시점은 upstream 의 README / TRAIN_EVAL.md 절차 그대로 시도.
+#### env setup / 검증 (KAK-22)
+
+```
+cp .env.example .env
+bash scripts/04-build_image.sh
+bash scripts/05-up.sh
+bash scripts/06-smoke_import.sh
+```
+
+container shell
+
+```
+docker compose exec uniad bash
+```
+
+GPU 상태
+
+```
+docker compose exec uniad nvidia-smi
+```
+
+train / eval 은 KAK-23 / KAK-25 진행 시 추가.
 
 ### 실수 방지
 
@@ -84,7 +105,9 @@ env / smoke / training script 는 KAK-22 ~ KAK-25 진행 중 추가 예정. 현 
 
 ### upstream 호환성 patch
 
-현재 없음. KAK-22 environment setup 진행 중 발견되는 patch 는 본 표에 추가 (file / line / 변경 / 사유).
+| file | 변경 | 사유 |
+| --- | --- | --- |
+| `docker/Dockerfile` | v1 stack (cuda 11.1 / py3.8 / torch 1.9 / mmcv 1.4) → v2.0 stack (cuda 11.8 / py3.9 / torch 2.0.1 / mmcv 1.6.1 / mmdet 2.26 / mmsegmentation 0.29.1 / mmdet3d 1.0.0rc6) (KAK-22) | upstream v2.0 release 시 Dockerfile 갱신 누락 — INSTALL.md 와 불일치. 원본은 `docker/Dockerfile.upstream` 으로 보존 |
 
 ### parent project 관계
 
