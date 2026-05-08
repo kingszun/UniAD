@@ -8,7 +8,7 @@
   <a href="https://arxiv.org/abs/2212.10156">arXiv</a> |
   <a href="https://www.youtube.com/watch?v=cyrxJJ_nnaQ">Video</a> |
   <a href="sources/cvpr23_uniad_poster.png">Poster</a> |
-  <a href="https://opendrivelab.com/e2ead/UniAD_plenary_talk_slides.pdf">Slides</a>
+  <a href="https://opendrivelab.github.io/UniAD_plenary_talk_slides.pdf">Slides</a>
 </h3>
 
 
@@ -39,7 +39,7 @@ https://github.com/OpenDriveLab/UniAD/assets/48089846/bcf685e4-2471-450e-8b77-e0
 5. [TODO List](#todos)
 6. [License](#license)
 7. [Citation](#citation)
-8. [See Also](#see)
+8. [🔥 See Also: GenAD & Vista](#see)
 
 ## Highlights <a name="high"></a>
 
@@ -51,6 +51,8 @@ https://github.com/OpenDriveLab/UniAD/assets/48089846/bcf685e4-2471-450e-8b77-e0
 - **`Paper Title Change`**: To avoid confusion with the "goal-point" navigation in Robotics, we change the title from "Goal-oriented" to "Planning-oriented" suggested by Reviewers. Thank you!
 
 - **`Planning Metric`**: Discussion [Ref: https://github.com/OpenDriveLab/UniAD/issues/29]: [Clarification](https://github.com/OpenDriveLab/UniAD/issues/29#issuecomment-1583070151) and [Notice](https://github.com/OpenDriveLab/UniAD/issues/29#issuecomment-1717594344) regarding open-loop planning results comparison.
+
+- **`2024/08/27`** New feature: Implementation for CARLA and closed-loop evaluation on CARLA Leaderboard 2.0 scenarios are available in [Bench2Drive](https://github.com/Thinklab-SJTU/Bench2Drive).
 
 - **`2023/08/03`** Bugfix [[Commit](https://github.com/OpenDriveLab/UniAD/commit/2e1380143d7af7c93bd67725a11d6960fa4347c6)]: Previously, the visualized planning results were in opposition on the x axis, compared to the ground truth. Now it's fixed.
 
@@ -104,17 +106,6 @@ Pre-trained models and results under main metrics are provided below. We refer y
 ### Model Structure
 The overall pipeline of UniAD is controlled by [uniad_e2e.py](projects/mmdet3d_plugin/uniad/detectors/uniad_e2e.py) which coordinates all the task modules in `UniAD/projects/mmdet3d_plugin/uniad/dense_heads`. If you are interested in the implementation of a specific task module, please refer to its corresponding file, e.g., [motion_head](projects/mmdet3d_plugin/uniad/dense_heads/motion_head.py).
 
-## TODO List <a name="todos"></a>
-- [ ] All configs & checkpoints
-- [ ] Upgrade the implementation of MapFormer from Panoptic SegFormer to [TopoNet](https://github.com/OpenDriveLab/TopoNet), which features the vectorized map representations and topology reasoning.
-- [ ] Support larger batch size
-- [ ] [Long-term] Improve flexibility for future extensions
-- [x] Fix bug: Unable to reproduce the results of stage1 track-map model when training from scratch. [Ref: https://github.com/OpenDriveLab/UniAD/issues/21]
-- [x] Visualization codes 
-- [x] Separating BEV encoder and tracking module
-- [x] Base-model configs & checkpoints
-- [x] Code initialization
-
 
 ## License <a name="license"></a>
 
@@ -122,7 +113,9 @@ All assets and code are under the [Apache 2.0 license](./LICENSE) unless specifi
 
 ## Citation <a name="citation"></a>
 
-Please consider citing our paper if the project helps your research with the following BibTex:
+
+If you find our project useful for your research, please consider citing our paper and codebase with the following BibTeX:
+
 
 ```bibtex
 @inproceedings{hu2023_uniad,
@@ -130,6 +123,15 @@ Please consider citing our paper if the project helps your research with the fol
  author={Yihan Hu and Jiazhi Yang and Li Chen and Keyu Li and Chonghao Sima and Xizhou Zhu and Siqi Chai and Senyao Du and Tianwei Lin and Wenhai Wang and Lewei Lu and Xiaosong Jia and Qiang Liu and Jifeng Dai and Yu Qiao and Hongyang Li},
  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
  year={2023},
+}
+```
+
+```bibtex
+@misc{contributors2023_uniadrepo,
+  title={Planning-oriented Autonomous Driving},
+  author={UniAD contributors},
+  howpublished={\url{https://github.com/OpenDriveLab/UniAD}},
+  year={2023}
 }
 ```
 ## Related Resources
@@ -141,8 +143,11 @@ Please consider citing our paper if the project helps your research with the fol
 - [MOTR](https://github.com/megvii-research/MOTR)
 
 
-## See Also  <a name="see"></a>
-[GenAD](https://github.com/OpenDriveLab/DriveAGI): Generalized Predictive Model for Autonomous Driving (CVPR'24, Highlight ⭐)
+## 🔥 See Also  <a name="see"></a>
+We are thrilled to launch our recent line of works: [GenAD](https://arxiv.org/abs/2403.09630) and [Vista](https://arxiv.org/abs/2405.17398), to advance  **driving world models** with the **largest driving video dataset** collected from the web - [OpenDV](https://github.com/OpenDriveLab/DriveAGI/tree/main/opendv).
+
+
+[GenAD](https://github.com/OpenDriveLab/DriveAGI): **Generalized Predictive Model for Autonomous Driving** (CVPR'24, Highlight ⭐)
 
 <div id="top" align="center">
 <p align="center">
@@ -151,7 +156,7 @@ Please consider citing our paper if the project helps your research with the fol
 </div>
 
 
-[Vista](https://github.com/OpenDriveLab/Vista): A Generalizable Driving World Model with High Fidelity and Versatile Controllability 🌏
+[Vista](https://github.com/OpenDriveLab/Vista): **A Generalizable Driving World Model with High Fidelity and Versatile Controllability** 🌏
 <div id="top" align="center">
 <p align="center">
 <img src="sources/vista.gif" width="1000px" >
