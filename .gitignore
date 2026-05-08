@@ -156,3 +156,6 @@ mmcv
 
 # vscode config file
 .vscode/
+
+# fork-specific: signed nuScenes URLs (KAK-24)
+scripts/nuscenes_urls.txt

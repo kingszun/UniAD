@@ -60,6 +60,18 @@ CVPR'23 Best Paper, OpenDriveLab/UniAD — planning-oriented end-to-end autonomo
 
 ### 자주 쓰는 command
 
+#### host data preparation (KAK-24)
+
+상세는 `scripts/README.md` 참조. 순서
+
+```
+cp scripts/nuscenes_urls_example.txt scripts/nuscenes_urls.txt
+# scripts/nuscenes_urls.txt 에 nuScenes 세션의 signed URL paste
+bash scripts/01-download_nuscenes.sh
+bash scripts/02-download_huggingface.sh
+bash scripts/03-link_to_repo.sh
+```
+
 env / smoke / training script 는 KAK-22 ~ KAK-25 진행 중 추가 예정. 현 시점은 upstream 의 README / TRAIN_EVAL.md 절차 그대로 시도.
 
 ### 실수 방지

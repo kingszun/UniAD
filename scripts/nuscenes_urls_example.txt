@@ -1,0 +1,28 @@
+# nuScenes download URL list (template).
+# copy this file to scripts/nuscenes_urls.txt and paste fresh signed URLs from
+# https://www.nuscenes.org/nuscenes#download (login required).
+#
+# URLs expire (typically 7 days). lines starting with # are ignored.
+# one URL per line.
+#
+# required archives (for KAK-23 mini smoke + KAK-23/25 full eval/train):
+#   - v1.0-mini.tgz
+#   - v1.0-trainval01_blobs.tgz
+#   - v1.0-trainval02_blobs.tgz
+#   - v1.0-trainval03_blobs.tgz
+#   - v1.0-trainval04_blobs.tgz
+#   - v1.0-trainval05_blobs.tgz
+#   - v1.0-trainval06_blobs.tgz
+#   - v1.0-trainval07_blobs.tgz
+#   - v1.0-trainval08_blobs.tgz
+#   - v1.0-trainval09_blobs.tgz
+#   - v1.0-trainval10_blobs.tgz
+#   - v1.0-trainval_meta.tgz
+#   - can_bus.zip
+#   - nuScenes-map-expansion-v1.3.zip
+#
+# total ~290 GB. mini-only (~4 GB) for KAK-23 smoke 만 한다면
+# v1.0-mini.tgz + can_bus.zip + nuScenes-map-expansion-v1.3.zip 만 paste.
+
+# https://example.s3.amazonaws.com/v1.0-mini.tgz?signature=...
+# https://example.s3.amazonaws.com/v1.0-trainval01_blobs.tgz?signature=...
