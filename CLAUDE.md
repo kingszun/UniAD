@@ -26,8 +26,7 @@ CVPR'23 Best Paper, OpenDriveLab/UniAD — planning-oriented end-to-end autonomo
 
 ### 진입 시 먼저 읽을 것
 
-본 fork 는 reproduction 시작 전 단계. 자체 docs (`docs/0X-*.md`) 는 아직 없고 upstream v2.0 문서를 그대로 사용한다.
-
+- `docs/00-overview.md` — fork 자체 정리 (project 목표, repo 구조, dependency, entry point, GPU / data 용량, host data layout, MotionFormer 위치 등). KAK-21 산출물.
 - `README.md` — UniAD 모델 개요, v2.0 release notes, getting started 안내
 - `docs/INSTALL.md` — environment 설치 절차 (`mmdet3d 1.0.0rc6` / `torch 2.0.1+cu118` / cuda 11.8 기준)
 - `docs/DATA_PREP.md` — nuScenes data prep (motion / occupancy gt 생성 포함). nuPlan / NAVSIM 은 v2.0 TODO 상태.
@@ -52,10 +51,10 @@ CVPR'23 Best Paper, OpenDriveLab/UniAD — planning-oriented end-to-end autonomo
 ### 작업 상태
 
 - KAK-32 fork base v2.0 전환 완료
-- KAK-21 repo 구조 / dependency / license 파악 (진행 예정)
+- KAK-21 repo 구조 / dependency / license 파악 완료 → `docs/00-overview.md`
 - KAK-22 env setup 미완료 (v2.0 의 `mmdet3d 1.x` + `torch 2.0.1` 기준으로 진행 — v1 대비 dep build 비용 절감 기대)
 - KAK-23 inference smoke 미수행
-- KAK-24 nuScenes full data prep 미수행
+- KAK-24 nuScenes full data prep 진행 중 (`scripts/01-03` 으로 host download 자동화)
 - KAK-25 training smoke 미수행
 - KAK-26 MotionFormer interface 미정리 (`motion_head_plugin/` 분리 구조 반영 필요)
 
