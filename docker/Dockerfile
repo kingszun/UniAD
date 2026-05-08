@@ -69,14 +69,18 @@ RUN --mount=type=cache,target=/root/.cache/uv \
         -f https://download.pytorch.org/whl/torch_stable.html
 
 # build deps for mmcv / mmdet3d. setuptools 59.5.0 (upstream Dockerfile pin — 신 setup.py 호환).
+# scikit-image 0.19.3 사용 (0.20.0 은 numpy>=1.21.1 요구하나 numpy 는 requirements.txt 와 맞춰
+# 1.20.0 으로 고정해야 함). upstream Dockerfile 은 pip 의 느슨한 처리로 우회했지만 uv 는 strict.
+# Pillow<10 — 10.x 부터 PIL._typing 이 numpy.typing.NDArray 호출하지만 numpy 1.20 에 부재.
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv pip install --python ${UV_PROJECT_ENVIRONMENT}/bin/python \
         numpy==1.20.0 \
         scipy==1.7.3 \
-        scikit-image==0.20.0 \
+        scikit-image==0.19.3 \
         setuptools==59.5.0 \
         wheel \
-        Cython
+        Cython \
+        "Pillow<10"
 
 # mmcv-full 1.4.0 (prebuilt cu111/torch1.9.0)
 RUN --mount=type=cache,target=/root/.cache/uv \
@@ -92,13 +96,16 @@ RUN --mount=type=cache,target=/root/.cache/uv \
         mmdet==2.14.0 \
         mmsegmentation==0.14.1
 
-# mmdet3d v0.17.1 from source (no prebuilt — INSTALL.md 의 git clone + checkout 절차)
+# mmdet3d v0.17.1 from source (no prebuilt — INSTALL.md 의 git clone + checkout 절차).
+# non-editable install 사용 — setuptools 59.5.0 은 PEP 660 의 build_editable hook 부재라
+# uv 의 -e 가 실패. upstream Dockerfile 도 editable + cp 로 우회했음. non-editable 은
+# venv site-packages 로 복사 (동일 효과).
 RUN git clone --branch v0.17.1 --single-branch --depth 1 \
         https://github.com/open-mmlab/mmdetection3d.git /opt/mmdetection3d
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv pip install --python ${UV_PROJECT_ENVIRONMENT}/bin/python \
         --no-build-isolation \
-        -v -e /opt/mmdetection3d
+        -v /opt/mmdetection3d
 
 # UniAD requirements + torchmetrics 0.8.2 pin (upstream Dockerfile 주석: "old version needed")
 COPY requirements.txt /tmp/requirements.txt

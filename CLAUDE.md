@@ -55,7 +55,7 @@ CVPR'23 Best Paper, OpenDriveLab/UniAD — planning-oriented end-to-end autonomo
 - KAK-32 fork base v2.0 전환 완료 → KAK-35 로 revert (v2-archive 에 보존)
 - KAK-35 revert v2.0 → v1 latest 진행 중 (현재 commit batch)
 - KAK-21 repo 구조 / dependency / license 파악 완료 → `docs/00-overview.md` (v1 기준 재작성)
-- KAK-22 env setup 진행 중 — `docker/Dockerfile` (v1 stack), `compose.yaml`, `.env.example`, `scripts/04-06` 작성. local 3060 build / import 검증 대기
+- KAK-22 env setup 완료 — `docker/Dockerfile` (v1 stack, uv venv + 3 patches), `compose.yaml`, `.env.example`, `scripts/04-06` + local 3060 import 검증 PASS
 - KAK-23 inference smoke 미수행
 - KAK-24 nuScenes full data prep 진행 중 (`scripts/01-03` 으로 host download. v1 ckpt URL 로 갱신)
 - KAK-25 training smoke 미수행
@@ -111,6 +111,9 @@ train / eval 은 KAK-23 / KAK-25 진행 시 추가.
 | file | 변경 | 사유 |
 | --- | --- | --- |
 | `docker/Dockerfile` | upstream Dockerfile (apt-installed python3.8 + system pip + global env) → fork Dockerfile (uv venv + sshd + dual-mode entrypoint, gameformer 패턴) (KAK-22) | RunPod cloud-native 운영 (sshd, isolated venv, image 안에 코드 박지 않고 host bind-mount) 을 위해 재작성. 기능적으로 동일한 stack. |
+| Dockerfile build deps `scikit-image==0.20.0` → `0.19.3` (KAK-22) | 0.20.0 은 `numpy>=1.21.1` 요구하지만 `requirements.txt` 가 `numpy==1.20.0` 로 pin. upstream Dockerfile 은 pip 의 느슨한 resolver 로 우회했으나 uv 는 strict — 호환되는 0.19.3 으로 통일 |
+| Dockerfile mmdet3d v0.17.1 `pip install -e .` → `pip install .` (non-editable) (KAK-22) | `setuptools 59.5.0` 은 PEP 660 의 `build_editable` hook 부재. uv 의 editable 설치가 실패. non-editable 은 venv site-packages 로 복사 — upstream Dockerfile 의 `cp -r mmdet3d` 와 동일 효과 |
+| Dockerfile build deps 에 `Pillow<10` 추가 (KAK-22) | Pillow 10.x 부터 `PIL._typing` 이 `numpy.typing.NDArray` 호출. numpy 1.20 에는 부재 → import 시 `AttributeError`. torchvision 0.10.1 이 Pillow pin 없이 latest 가져와 발생 |
 
 ### parent project 관계
 
